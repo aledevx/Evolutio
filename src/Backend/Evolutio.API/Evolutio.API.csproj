@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\Shared\Evolutio.Communication\Evolutio.Communication.csproj" />
     <ProjectReference Include="..\..\Shared\Evolutio.Exception\Evolutio.Exception.csproj" />
     <ProjectReference Include="..\Evolutio.Application\Evolutio.Application.csproj" />
+    <ProjectReference Include="..\Evolutio.Infrastructure\Evolutio.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
