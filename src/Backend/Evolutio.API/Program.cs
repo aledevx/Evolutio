@@ -1,3 +1,4 @@
+using Evolutio.API.Middlewares;
 using Evolutio.Infrastructure;
 using Evolutio.Infrastructure.Extensions;
 using Evolutio.Infrastructure.Migrations;
@@ -20,6 +21,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseMiddleware<CultureMiddleware>();
 
 app.UseHttpsRedirection();
 
