@@ -1,6 +1,12 @@
-@Evolutio.API_HostAddress = http://localhost:5195
+@Evolutio.API_HostAddress = https://localhost:7144/api
+@contentType = application/json
 
-GET {{Evolutio.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
+### Health check
+GET {{Evolutio.API_HostAddress}}/health
+Accept: {{contentType}}
 ###
+### API check
+GET {{Evolutio.API_HostAddress}}/health/test
+Accept: {{contentType}}
+###
+

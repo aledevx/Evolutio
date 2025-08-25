@@ -11,6 +11,7 @@ public static class DependencyInjectionExtension
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddFluentMigrator(services, configuration);
+        AddHealthChecks(services, configuration);
     }
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) 
     {
@@ -23,6 +24,15 @@ public static class DependencyInjectionExtension
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(Assembly.Load("Evolutio.Infrastructure")).For.All();
         });
+    }
+    private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration) 
+    {
+        var connectString = configuration.ConnectionString();
+        services.AddHealthChecks()
+            .AddSqlServer(
+                connectionString: connectString,
+                name: "SQL Server",
+                timeout: TimeSpan.FromSeconds(5));
     }
 }
 
