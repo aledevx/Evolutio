@@ -1,3 +1,4 @@
+using Evolutio.API.Filters;
 using Evolutio.API.Middlewares;
 using Evolutio.Infrastructure;
 using Evolutio.Infrastructure.Extensions;
@@ -8,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// Add exception filter to handle exceptions globally
+builder.Services.AddMvc(options =>
+    options.Filters.Add(typeof(ExceptionFilter)));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
