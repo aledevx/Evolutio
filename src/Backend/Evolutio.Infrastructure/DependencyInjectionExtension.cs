@@ -1,5 +1,7 @@
-﻿using Evolutio.Infrastructure.Extensions;
+﻿using Evolutio.Infrastructure.DataAccess;
+using Evolutio.Infrastructure.Extensions;
 using FluentMigrator.Runner;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -12,6 +14,7 @@ public static class DependencyInjectionExtension
     {
         AddFluentMigrator(services, configuration);
         AddHealthChecks(services, configuration);
+        AddDbContext(services, configuration);
     }
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) 
     {
@@ -33,6 +36,15 @@ public static class DependencyInjectionExtension
                 connectionString: connectString,
                 name: "SQL Server",
                 timeout: TimeSpan.FromSeconds(5));
+    }
+    private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddDbContext<EvolutioDbContext>(dbContextOptions =>
+        {
+            dbContextOptions.UseSqlServer(connectionString);
+        });
     }
 }
 
