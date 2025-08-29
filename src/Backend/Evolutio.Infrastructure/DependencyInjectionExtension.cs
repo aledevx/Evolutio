@@ -1,5 +1,7 @@
 ﻿using Evolutio.Domain.Repositories;
+using Evolutio.Domain.Repositories.User;
 using Evolutio.Infrastructure.DataAccess;
+using Evolutio.Infrastructure.DataAccess.Repositories;
 using Evolutio.Infrastructure.Extensions;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +53,7 @@ public static class DependencyInjectionExtension
     private static void AddRepositories(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
     }
 }
 
