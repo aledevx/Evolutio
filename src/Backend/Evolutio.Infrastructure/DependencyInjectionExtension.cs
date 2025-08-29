@@ -1,4 +1,5 @@
-﻿using Evolutio.Infrastructure.DataAccess;
+﻿using Evolutio.Domain.Repositories;
+using Evolutio.Infrastructure.DataAccess;
 using Evolutio.Infrastructure.Extensions;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ public static class DependencyInjectionExtension
         AddFluentMigrator(services, configuration);
         AddHealthChecks(services, configuration);
         AddDbContext(services, configuration);
+        AddRepositories(services, configuration);
     }
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) 
     {
@@ -45,6 +47,10 @@ public static class DependencyInjectionExtension
         {
             dbContextOptions.UseSqlServer(connectionString);
         });
+    }
+    private static void AddRepositories(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
 
