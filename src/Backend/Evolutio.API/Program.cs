@@ -1,5 +1,6 @@
 using Evolutio.API.Filters;
 using Evolutio.API.Middlewares;
+using Evolutio.Application;
 using Evolutio.Infrastructure;
 using Evolutio.Infrastructure.Extensions;
 using Evolutio.Infrastructure.Migrations;
@@ -18,6 +19,8 @@ builder.Services.AddOpenApi();
 
 // Add infrastructure services dependency injection
 builder.Services.AddInfrastructure(builder.Configuration);
+// Add application services dependency injection
+builder.Services.AddApplication(builder.Configuration);
 
 var app = builder.Build();
 
