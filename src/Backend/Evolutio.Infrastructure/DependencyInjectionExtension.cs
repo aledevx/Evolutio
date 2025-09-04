@@ -1,8 +1,10 @@
 ﻿using Evolutio.Domain.Repositories;
 using Evolutio.Domain.Repositories.User;
+using Evolutio.Domain.Security.Cryptography;
 using Evolutio.Infrastructure.DataAccess;
 using Evolutio.Infrastructure.DataAccess.Repositories;
 using Evolutio.Infrastructure.Extensions;
+using Evolutio.Infrastructure.Security.Cryptography;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,7 @@ public static class DependencyInjectionExtension
         AddHealthChecks(services, configuration);
         AddDbContext(services, configuration);
         AddRepositories(services, configuration);
+        AddPasswordEncripter(services);
     }
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) 
     {
@@ -54,6 +57,11 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+        services.AddScoped<IUserReadOnlyRepository, UserRepository>();
+    }
+    private static void AddPasswordEncripter(IServiceCollection services)
+    {
+        services.AddScoped<IPasswordEncripter, BCryptNet>();
     }
 }
 
