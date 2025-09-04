@@ -129,6 +129,15 @@
   <data name="EXPIRED_SESSION" xml:space="preserve">
     <value>Sua sessão expirou. Faça login novamente para continuar.</value>
   </data>
+  <data name="NAME_EMPTY" xml:space="preserve">
+    <value>O nome não pode estar vazio.</value>
+  </data>
+  <data name="PASSWORD_EMPTY" xml:space="preserve">
+    <value>Senha vazia.</value>
+  </data>
+  <data name="PASSWORD_INVALID" xml:space="preserve">
+    <value>A senha possui menos de 6 caracteres.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
