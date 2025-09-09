@@ -12,8 +12,8 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
         RuleFor(user => user.Name).NotEmpty().WithMessage(ResourceMessagesException.NAME_EMPTY);
         //Valida se o email não é vazio
         RuleFor(user => user.Email).NotEmpty().WithMessage(ResourceMessagesException.EMAIL_EMPTY);
-        //Valida se o email é válido
-        When(user => String.IsNullOrEmpty(user.Email), () =>
+        //Valida se o email é válido, primeiro verificando se o email não é nulo ou vazio
+        When(user => String.IsNullOrWhiteSpace(user.Email) is false, () =>
         {
             RuleFor(user => user.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
         });
