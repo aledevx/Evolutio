@@ -2,9 +2,8 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Evolutio.API.Controllers;
-[Route("api/[controller]")]
-[ApiController]
-public class HealthController : ControllerBase
+
+public class HealthController : EvolutioBaseController
 {
 
     [HttpGet]
