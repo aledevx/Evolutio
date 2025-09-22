@@ -19,5 +19,10 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
     {
         return await _dbContext.Users.AnyAsync(u => u.Email.Equals(email) && u.Active);
     }
+
+    public async Task<User?> GetById(long id)
+    {
+        return await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id.Equals(id));
+    }
 }
 
