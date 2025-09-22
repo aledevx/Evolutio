@@ -1,3 +1,4 @@
+using Evolutio.API.Converters;
 using Evolutio.API.Filters;
 using Evolutio.API.Middlewares;
 using Evolutio.Application;
@@ -9,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 
 // Add exception filter to handle exceptions globally
 builder.Services.AddMvc(options =>
@@ -21,6 +24,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 // Add application services dependency injection
 builder.Services.AddApplication(builder.Configuration);
+// Add low case routing
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
