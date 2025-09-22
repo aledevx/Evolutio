@@ -17,11 +17,15 @@ public static class DependencyInjectionExtension
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        AddFluentMigrator(services, configuration);
         AddHealthChecks(services, configuration);
-        AddDbContext(services, configuration);
         AddRepositories(services, configuration);
         AddPasswordEncripter(services);
+
+        if (configuration.IsUnitTestEnvironment())
+            return;
+
+        AddDbContext(services, configuration);
+        AddFluentMigrator(services, configuration);
     }
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) 
     {
