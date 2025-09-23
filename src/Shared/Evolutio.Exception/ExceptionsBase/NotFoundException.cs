@@ -14,7 +14,7 @@ public class NotFoundException : EvolutioException
 
     public override HttpStatusCode GetStatusCode()
     {
-        throw new NotImplementedException();
+        return HttpStatusCode.NotFound;
     }
 }
 

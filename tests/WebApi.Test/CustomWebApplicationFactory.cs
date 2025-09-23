@@ -43,6 +43,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     public string GetEmail() => _user.Email;
     public string GetPassword() => _password;
     public Guid GetUserIdentifier() => _user.UserIdentifier;
+    public long GetUserId() => _user.Id;
     private void CreateDatabase(EvolutioDbContext dbContext)
     {
         (_user, _password) = UserBuilder.Build();

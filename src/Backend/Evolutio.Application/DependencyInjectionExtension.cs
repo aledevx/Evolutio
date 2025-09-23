@@ -1,4 +1,5 @@
 ﻿using Evolutio.Application.Services.AutoMapper;
+using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ public static class DependencyInjectionExtension
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+        services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
     }
     private static void AddIdEncoder(IServiceCollection services, IConfiguration configuration)
     {
