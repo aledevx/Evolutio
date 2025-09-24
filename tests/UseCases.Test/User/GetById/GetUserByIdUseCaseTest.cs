@@ -27,7 +27,7 @@ public class GetUserByIdUseCaseTest
     {
         var useCase = CreateUseCase();
 
-        Func<Task> act = async () => { await useCase.Execute(1); };
+        Func<Task> act = async () => { await useCase.Execute(2); };
 
         (await act.Should().ThrowAsync<NotFoundException>())
         .Where(e => e.GetErrorMessages().Count == 1 &&
@@ -39,7 +39,7 @@ public class GetUserByIdUseCaseTest
         var mapper = MapperBuilder.Build();
         if (user is not null)
         {
-            userReadOnlyRepository.GetById(user);
+            userReadOnlyRepository.GetByUserIdentifier(user);
         }
 
         return new GetUserByIdUseCase(userReadOnlyRepository.Build(), mapper);

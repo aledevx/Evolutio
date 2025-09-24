@@ -1,5 +1,6 @@
 ﻿using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Register;
+using Evolutio.Application.UseCases.User.Update;
 using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,19 @@ public class UserController : EvolutioBaseController
         var result = await useCase.Execute(id);
 
         return Ok(result);
-    }    
+    }
+    [HttpPut]
+    [Route("{id}")]
+    [ProducesResponseType(typeof(ResponseUserIdJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Update([FromRoute] long id,
+        [FromBody] RequestUpdateUserJson request,
+        [FromServices] IUpdateUserUseCase useCase) 
+    {
+        var result = await useCase.Execute(id, request);
+
+        return Ok(result);
+    }
 }
 

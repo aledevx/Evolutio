@@ -15,13 +15,14 @@ public class UserReadOnlyRepositoryBuilder
     {
         _repository.Setup(repository => repository.ExistsByEmail(email)).ReturnsAsync(true);
     }
-
-    public UserReadOnlyRepositoryBuilder GetById(User? user) 
+    public void ExistsById(long id) 
     {
-        if(user is not null)
-        _repository.Setup(repository => repository.GetById(user.Id)).ReturnsAsync(user);
+        _repository.Setup(repository => repository.ExistsById(id)).ReturnsAsync(true);
+    }
 
-        return this;
+    public void GetByUserIdentifier(User user) 
+    {
+        _repository.Setup(repository => repository.GetById(user.Id)).ReturnsAsync(user);
     }
 
     public IUserReadOnlyRepository Build()

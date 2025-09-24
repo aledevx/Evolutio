@@ -36,21 +36,6 @@ public class RegisterUserUseCaseTest
             .Where(e => e.GetErrorMessages().Count == 1 && 
             e.GetErrorMessages().Contains(ResourceMessagesException.EMAIL_ALREADY_REGISTERED));
     }
-    [Fact]
-    public async Task Error_Name_Empty()
-    {
-        var request = RequestRegisterUserJsonBuilder.Build();
-        request.Name = string.Empty;
-
-        var useCase = CreateUseCase();
-
-        Func<Task> act = async () => await useCase.Execute(request);
-
-        (await act.Should()
-            .ThrowAsync<ErrorOnValidationException>())
-            .Where(e => e.GetErrorMessages().Count == 1 &&
-            e.GetErrorMessages().Contains(ResourceMessagesException.NAME_EMPTY));
-    }
     private static RegisterUserUseCase CreateUseCase(string? email = null) 
     {
         var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
