@@ -1,4 +1,5 @@
-﻿using Evolutio.Application.UseCases.User.GetById;
+﻿using Evolutio.Application.UseCases.User.Delete;
+using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Register;
 using Evolutio.Application.UseCases.User.Update;
 using Evolutio.Communication.Requests;
@@ -40,6 +41,16 @@ public class UserController : EvolutioBaseController
         var result = await useCase.Execute(id, request);
 
         return Ok(result);
+    }
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] long id, [FromServices] IDeleteUserUseCase useCase)
+    {
+        await useCase.Execute(id);
+
+        return NoContent();
     }
 }
 

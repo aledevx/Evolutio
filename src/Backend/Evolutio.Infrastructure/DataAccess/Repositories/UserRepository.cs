@@ -22,7 +22,7 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository,
 
     public async Task<bool> ExistsById(long id)
     {
-        return await _dbContext.Users.AnyAsync(u => u.UserIdentifier.Equals(id));
+        return await _dbContext.Users.AnyAsync(u => u.Id.Equals(id));
     }
 
     async Task<User?> IUserUpdateOnlyRepository.GetById(long id)
