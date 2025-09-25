@@ -3,7 +3,7 @@ using Evolutio.Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Evolutio.Infrastructure.DataAccess.Repositories;
-public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
+public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository, IUserDeleteOnlyRepository
 {
     private readonly EvolutioDbContext _dbContext;
     public UserRepository(EvolutioDbContext dbContext)
@@ -38,6 +38,13 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository,
     public void Update(User user)
     {
         _dbContext.Users.Update(user);
+    }
+
+    public async Task Delete(long id)
+    {
+        var user = await _dbContext.Users.FindAsync(id);
+
+        _dbContext.Users.Remove(user!);
     }
 }
 

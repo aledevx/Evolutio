@@ -1,7 +1,9 @@
 ﻿using Evolutio.Application.Services.AutoMapper;
+using Evolutio.Application.UseCases.User.Delete;
 using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Register;
 using Evolutio.Application.UseCases.User.Update;
+using Evolutio.Domain.Repositories.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sqids;
@@ -20,6 +22,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+        services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
     }
     private static void AddIdEncoder(IServiceCollection services, IConfiguration configuration)
     {
