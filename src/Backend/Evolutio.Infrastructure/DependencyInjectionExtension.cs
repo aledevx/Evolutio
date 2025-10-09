@@ -1,10 +1,15 @@
 ﻿using Evolutio.Domain.Repositories;
+using Evolutio.Domain.Repositories.Token;
 using Evolutio.Domain.Repositories.User;
 using Evolutio.Domain.Security.Cryptography;
+using Evolutio.Domain.Security.Tokens;
 using Evolutio.Infrastructure.DataAccess;
 using Evolutio.Infrastructure.DataAccess.Repositories;
 using Evolutio.Infrastructure.Extensions;
 using Evolutio.Infrastructure.Security.Cryptography;
+using Evolutio.Infrastructure.Security.Tokens.Access.Generator;
+using Evolutio.Infrastructure.Security.Tokens.Access.Validator;
+using Evolutio.Infrastructure.Security.Tokens.Refresh;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +25,7 @@ public static class DependencyInjectionExtension
         AddHealthChecks(services, configuration);
         AddRepositories(services, configuration);
         AddPasswordEncripter(services);
+        AddTokens(services, configuration);
 
         if (configuration.IsUnitTestEnvironment())
             return;
@@ -64,10 +70,23 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
         services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
         services.AddScoped<IUserDeleteOnlyRepository, UserRepository>();
+        services.AddScoped<ITokenRepository, TokenRepository>();
     }
     private static void AddPasswordEncripter(IServiceCollection services)
     {
         services.AddScoped<IPasswordEncripter, BCryptNet>();
+    }
+    private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+    {
+        var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
+
+        var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
+
+        services.AddScoped<IAccessTokenGenerator>(options => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
+
+        services.AddScoped<IAccessTokenValidator>(options => new JwtTokenValidator(signingKey!));
+
+        services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
     }
 }
 
