@@ -8,6 +8,7 @@ public class EvolutioDbContext : DbContext
     { }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Aplica automaticamente todas as classes de configuração (IEntityTypeConfiguration)
