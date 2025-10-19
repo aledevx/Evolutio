@@ -26,6 +26,8 @@ public class RegisterUserTest : EvolutioClassFixture
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("name").GetString().Should().Be(request.Name);
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().Should().NotBeNullOrEmpty();
+        responseData.RootElement.GetProperty("tokens").GetProperty("refreshToken").GetString().Should().NotBeNullOrEmpty();
     }
     [Theory]
     [ClassData(typeof(CultureInlineDataTest))]

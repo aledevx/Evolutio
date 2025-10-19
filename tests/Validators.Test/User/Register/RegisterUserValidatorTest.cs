@@ -70,6 +70,32 @@ public class RegisterUserValidatorTest
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle().And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesException.PASSWORD_EMPTY));
     }
+    [Fact]
+    public void Error_Profile_Empty()
+    {
+        var validator = new RegisterUserValidator();
+
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Perfil = string.Empty;
+
+        var result = validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle().And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesException.PROFILE_EMPTY));
+    }
+    [Fact]
+    public void Error_Profile_Invalid()
+    {
+        var validator = new RegisterUserValidator();
+
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Perfil = "Gerente";
+
+        var result = validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle().And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesException.PROFILE_INVALID));
+    }
     [Theory]
     [InlineData(1)]
     [InlineData(2)]

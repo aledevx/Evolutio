@@ -129,6 +129,9 @@
   <data name="EXPIRED_SESSION" xml:space="preserve">
     <value>Sua sessão expirou. Faça login novamente para continuar.</value>
   </data>
+  <data name="INVALID_SESSION" xml:space="preserve">
+    <value>Não foi possível encontrar uma sessão válida. Faça login para acessar esse recurso.</value>
+  </data>
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>O nome não pode estar vazio.</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>A senha possui menos de 6 caracteres.</value>
+  </data>
+  <data name="PROFILE_EMPTY" xml:space="preserve">
+    <value>O perfil não pode ser vazio.</value>
+  </data>
+  <data name="PROFILE_INVALID" xml:space="preserve">
+    <value>O perfil deve ser do tipo Admin ou Funcionario.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>

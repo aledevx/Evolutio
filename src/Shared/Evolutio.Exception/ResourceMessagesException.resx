@@ -129,6 +129,9 @@
   <data name="EXPIRED_SESSION" xml:space="preserve">
     <value>Your session has expired. Please log in again to continue.</value>
   </data>
+  <data name="INVALID_SESSION" xml:space="preserve">
+    <value>We couldn't find a valid session. Please log in to access this feature.</value>
+  </data>
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>Name cannot be empty.</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>The password is less than 6 characters long.</value>
+  </data>
+  <data name="PROFILE_EMPTY" xml:space="preserve">
+    <value>Profile cannot be empty.</value>
+  </data>
+  <data name="PROFILE_INVALID" xml:space="preserve">
+    <value>The profile must be of the Admin or Funcionario type.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error.</value>

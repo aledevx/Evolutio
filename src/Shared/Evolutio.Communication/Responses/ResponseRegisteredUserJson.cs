@@ -1,3 +1,3 @@
 ﻿namespace Evolutio.Communication.Responses;
-public record ResponseRegisteredUserJson(string Name);
+public record ResponseRegisteredUserJson(string Name, ResponseTokensJson Tokens);
 
