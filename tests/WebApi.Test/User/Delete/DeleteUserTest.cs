@@ -1,4 +1,5 @@
 ﻿using Azure;
+using CommonTestUtilities.Tokens;
 using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
@@ -11,14 +12,19 @@ public class DeleteUserTest : EvolutioClassFixture
 {
     private readonly string METHOD = "user";
     private readonly long _userId;
+    private readonly Guid _userIdentifier;
+    private readonly string _userProfile;
     public DeleteUserTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _userId = factory.GetUserId();
+        _userIdentifier = factory.GetUserIdentifier();
+        _userProfile = factory.GetUserProfile();
     }
     [Fact]
     public async Task Success() 
     {
-        var result = await DoDelete(method: $"{METHOD}/{_userId}");
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _userProfile);
+        var result = await DoDelete(method: $"{METHOD}/{_userId}", token: token);
 
         result.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
@@ -27,7 +33,8 @@ public class DeleteUserTest : EvolutioClassFixture
     [ClassData(typeof(CultureInlineDataTest))]
     public async Task Error_User_Not_Found(string culture) 
     {
-        var result = await DoDelete(method: $"{METHOD}/{2}", culture: culture);
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _userProfile);
+        var result = await DoDelete(method: $"{METHOD}/{2}", token: token, culture: culture);
 
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
 

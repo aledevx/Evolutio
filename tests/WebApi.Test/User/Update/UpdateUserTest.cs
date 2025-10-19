@@ -1,4 +1,5 @@
 ﻿using CommonTestUtilities.Requests;
+using CommonTestUtilities.Tokens;
 using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
@@ -12,17 +13,22 @@ public class UpdateUserTest : EvolutioClassFixture
     private readonly string METHOD = "user";
     private readonly long _userId;
     private readonly string _userEmail;
+    private readonly Guid _userIdentifier;
+    private readonly string _userProfile;
     public UpdateUserTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _userId = factory.GetUserId();
         _userEmail = factory.GetEmail();
+        _userIdentifier = factory.GetUserIdentifier();
+        _userProfile = factory.GetUserProfile();
     }
     [Fact]
     public async Task Success()
     {
         var request = RequestUpdateUserJsonBuilder.Build();
 
-        var response = await DoPut(method: $"{METHOD}/{_userId}", request: request);
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _userProfile);
+        var response = await DoPut(method: $"{METHOD}/{_userId}", token:token, request: request);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -54,7 +60,8 @@ public class UpdateUserTest : EvolutioClassFixture
         var request = RequestUpdateUserJsonBuilder.Build();
         request.Email = _userEmail;
 
-        var response = await DoPut(method: $"{METHOD}/{_userId}", request: request, culture: culture);
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _userProfile);
+        var response = await DoPut(method: $"{METHOD}/{_userId}", token:token, request: request, culture: culture);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
