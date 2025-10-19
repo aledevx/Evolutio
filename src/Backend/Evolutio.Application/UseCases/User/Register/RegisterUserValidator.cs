@@ -1,4 +1,5 @@
 ﻿using Evolutio.Application.SharedValidators;
+using Evolutio.Communication.Constants;
 using Evolutio.Communication.Requests;
 using Evolutio.Exception;
 using FluentValidation;
@@ -16,6 +17,12 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
         When(user => String.IsNullOrWhiteSpace(user.Email) is false, () =>
         {
             RuleFor(user => user.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
+        });
+        // Valida se o perfil não é vazio e se é um perfil válido
+        RuleFor(user => user.Perfil).NotEmpty().WithMessage(ResourceMessagesException.PROFILE_EMPTY);
+        When(user => String.IsNullOrEmpty(user.Perfil) is false, () => 
+        {
+            RuleFor(user => user.Perfil).Must(p => Perfil.Todos.Contains(p)).WithMessage(ResourceMessagesException.PROFILE_INVALID);
         });
         //Valida se a senha segue os padrões de segurança definidos
         RuleFor(user => user.Password).SetValidator(new PasswordValidator<RequestRegisterUserJson>());
