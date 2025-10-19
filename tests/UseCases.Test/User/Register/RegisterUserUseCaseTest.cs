@@ -2,6 +2,7 @@
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
+using CommonTestUtilities.Tokens;
 using Evolutio.Application.UseCases.User.Register;
 using Evolutio.Exception;
 using Evolutio.Exception.ExceptionsBase;
@@ -21,6 +22,8 @@ public class RegisterUserUseCaseTest
 
         result.Should().NotBeNull();
         result.Name.Should().Be(request.Name);
+        result.Tokens.AccessToken.Should().NotBeNullOrWhiteSpace();
+        result.Tokens.RefreshToken.Should().NotBeNullOrWhiteSpace();
     }
     [Fact]
     public async Task Error_Email_Already_Exists() 
@@ -43,13 +46,22 @@ public class RegisterUserUseCaseTest
         var unitOfWork = UnitOfWorkBuilder.Build();
         var passwordEncripter = PasswordEncripterBuilder.Build();
         var mapper = MapperBuilder.Build();
+        var tokenRepository = new TokenRepositoryBuilder();
+        var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
+        var refreshTokenGenerator = RefreshTokenGeneratorBuilder.Build();
 
         if (String.IsNullOrWhiteSpace(email) == false) 
         {
             readOnlyRepository.ExistsByEmail(email);
         }
 
-        return new RegisterUserUseCase(writeOnlyRepository, readOnlyRepository.Build(), unitOfWork, passwordEncripter, mapper);
+        return new RegisterUserUseCase(writeOnlyRepository, 
+            readOnlyRepository.Build(), 
+            unitOfWork, 
+            passwordEncripter, 
+            mapper, 
+            tokenRepository.Build(), accessTokenGenerator,
+            refreshTokenGenerator);
     }
 }
 
