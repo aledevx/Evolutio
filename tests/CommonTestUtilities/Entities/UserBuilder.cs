@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using CommonTestUtilities.Cryptography;
+using Evolutio.Domain.Constants;
 using Evolutio.Domain.Entities;
 
 namespace CommonTestUtilities.Entities;
@@ -16,6 +17,7 @@ public class UserBuilder
             .RuleFor(u => u.Name, (f) => f.Person.FirstName)
             .RuleFor(u => u.Email, (f, user) => f.Internet.Email(user.Name))
             .RuleFor(u => u.UserIdentifier, _ => Guid.NewGuid())
+            .RuleFor(u => u.Perfil, () => Perfil.Admin)
             .RuleFor(u => u.Password, (f) => passwordEncripter.Encrypt(password));
 
         return (user, password);

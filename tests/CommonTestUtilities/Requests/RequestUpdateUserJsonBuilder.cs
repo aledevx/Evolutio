@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Evolutio.Communication.Constants;
 using Evolutio.Communication.Requests;
 
 namespace CommonTestUtilities.Requests;
@@ -8,7 +9,8 @@ public class RequestUpdateUserJsonBuilder
     {
         var requestGenerated = new Faker<RequestUpdateUserJson>()
             .RuleFor(request => request.Name, (f) => f.Person.FirstName)
-            .RuleFor(request => request.Email, (f, request) => f.Internet.Email(request.Name));
+            .RuleFor(request => request.Email, (f, request) => f.Internet.Email(request.Name))
+            .RuleFor(request => request.Perfil, () => Perfil.Funcionario);
 
         return requestGenerated;
     }
