@@ -97,6 +97,15 @@ namespace Evolutio.Exception {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a We couldn&apos;t find a valid session. Please log in to access this feature..
+        /// </summary>
+        public static string INVALID_SESSION {
+            get {
+                return ResourceManager.GetString("INVALID_SESSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Name cannot be empty..
         /// </summary>
         public static string NAME_EMPTY {
@@ -120,6 +129,24 @@ namespace Evolutio.Exception {
         public static string PASSWORD_INVALID {
             get {
                 return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Profile cannot be empty..
+        /// </summary>
+        public static string PROFILE_EMPTY {
+            get {
+                return ResourceManager.GetString("PROFILE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The profile must be of the Admin or Funcionario type..
+        /// </summary>
+        public static string PROFILE_INVALID {
+            get {
+                return ResourceManager.GetString("PROFILE_INVALID", resourceCulture);
             }
         }
         
