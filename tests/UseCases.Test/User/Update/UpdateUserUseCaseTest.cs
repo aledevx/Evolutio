@@ -65,7 +65,7 @@ public class UpdateUserUseCaseTest
 
         if (user is not null)
         {
-            readOnlyRepository.GetByUserIdentifier(user);
+            readOnlyRepository.GetById(user);
             updateOnlyRepository.GetById(user);
         
             if ( email is not null) 
