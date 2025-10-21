@@ -126,6 +126,9 @@
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>The email is not valid.</value>
   </data>
+  <data name="EMAIL_OR_PASSWORD_INVALID" xml:space="preserve">
+    <value>Invalid email and/or password.</value>
+  </data>
   <data name="EXPIRED_SESSION" xml:space="preserve">
     <value>Your session has expired. Please log in again to continue.</value>
   </data>
