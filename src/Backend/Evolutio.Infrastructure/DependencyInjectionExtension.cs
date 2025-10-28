@@ -3,6 +3,7 @@ using Evolutio.Domain.Repositories.Token;
 using Evolutio.Domain.Repositories.User;
 using Evolutio.Domain.Security.Cryptography;
 using Evolutio.Domain.Security.Tokens;
+using Evolutio.Domain.Services.LoggedUser;
 using Evolutio.Infrastructure.DataAccess;
 using Evolutio.Infrastructure.DataAccess.Repositories;
 using Evolutio.Infrastructure.Extensions;
@@ -10,6 +11,7 @@ using Evolutio.Infrastructure.Security.Cryptography;
 using Evolutio.Infrastructure.Security.Tokens.Access.Generator;
 using Evolutio.Infrastructure.Security.Tokens.Access.Validator;
 using Evolutio.Infrastructure.Security.Tokens.Refresh;
+using Evolutio.Infrastructure.Services.LoggedUser;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,7 @@ public static class DependencyInjectionExtension
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        AddLoggedUser(services);
         AddHealthChecks(services, configuration);
         AddRepositories(services, configuration);
         AddPasswordEncripter(services);
@@ -87,6 +90,10 @@ public static class DependencyInjectionExtension
         services.AddScoped<IAccessTokenValidator>(options => new JwtTokenValidator(signingKey!));
 
         services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
+    }
+    private static void AddLoggedUser(IServiceCollection services)
+    {
+        services.AddScoped<ILoggedUser, LoggedUser>();
     }
 }
 
