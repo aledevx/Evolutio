@@ -138,6 +138,9 @@
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>Name cannot be empty.</value>
   </data>
+  <data name="NO_TOKEN" xml:space="preserve">
+    <value>A Token is required.</value>
+  </data>
   <data name="PASSWORD_EMPTY" xml:space="preserve">
     <value>Password empty.</value>
   </data>
