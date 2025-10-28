@@ -1,5 +1,5 @@
-﻿using Azure;
-using CommonTestUtilities.Tokens;
+﻿using CommonTestUtilities.Tokens;
+using Evolutio.Domain.Enums;
 using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
@@ -13,7 +13,7 @@ public class DeleteUserTest : EvolutioClassFixture
     private readonly string METHOD = "user";
     private readonly long _userId;
     private readonly Guid _userIdentifier;
-    private readonly string _userProfile;
+    private readonly Perfil _userProfile;
     public DeleteUserTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _userId = factory.GetUserId();

@@ -1,4 +1,6 @@
-﻿using Evolutio.Exception;
+﻿using CommonTestUtilities.Tokens;
+using Evolutio.Domain.Enums;
+using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
 using System.Net;
@@ -12,16 +14,21 @@ public class GetUserByIdTest : EvolutioClassFixture
     private readonly long _userId;
     private readonly string _userName;
     private readonly string _userEmail;
+    private readonly Guid _userIdentifier;
+    private readonly Perfil _perfil;
     public GetUserByIdTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _userId = factory.GetUserId();
         _userName = factory.GetName();
         _userEmail = factory.GetEmail();
+        _userIdentifier = factory.GetUserIdentifier();
+        _perfil = factory.GetUserProfile();
     }
     [Fact]
     public async Task Success()
     {
-        var response = await DoGet(method: $"{METHOD}/{_userId}");
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _perfil);
+        var response = await DoGet(method: $"{METHOD}/{_userId}", token:token);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -41,7 +48,9 @@ public class GetUserByIdTest : EvolutioClassFixture
     [ClassData(typeof(CultureInlineDataTest))]
     public async Task Error_User_Not_Found(string culture)
     {
-        var response = await DoGet(method: $"{METHOD}/{2}", culture: culture);
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _perfil);
+
+        var response = await DoGet(method: $"{METHOD}/{2}", token:token, culture: culture);
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
