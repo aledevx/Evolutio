@@ -1,15 +1,19 @@
-﻿using Evolutio.Application.UseCases.User.Delete;
+﻿using Evolutio.API.Attributes;
+using Evolutio.Application.UseCases.User.Delete;
 using Evolutio.Application.UseCases.User.GetById;
+using Evolutio.Application.UseCases.User.Profile;
 using Evolutio.Application.UseCases.User.Register;
 using Evolutio.Application.UseCases.User.Update;
 using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
+using Evolutio.Communication.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Evolutio.API.Controllers;
-
+[AuthenticatedUser]
 public class UserController : EvolutioBaseController
 {
+    [AuthenticatedUser(Perfil.Admin)]
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -29,6 +33,7 @@ public class UserController : EvolutioBaseController
 
         return Ok(result);
     }
+    [AuthenticatedUser(Perfil.Admin)]
     [HttpPut]
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseUserIdJson), StatusCodes.Status200OK)]
@@ -51,6 +56,13 @@ public class UserController : EvolutioBaseController
         await useCase.Execute(id);
 
         return NoContent();
+    }
+    [HttpGet("profile")]
+    [ProducesResponseType(typeof(ResponseUserProfileJson),StatusCodes.Status200OK)]
+    public async Task<IActionResult> Profile([FromServices] IGetUserProfileUseCase useCase) 
+    {
+        var result = await useCase.Execute();
+        return Ok(result);
     }
 }
 
