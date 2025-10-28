@@ -1,4 +1,5 @@
 ﻿using CommonTestUtilities.Entities;
+using Evolutio.Domain.Enums;
 using Evolutio.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -42,7 +43,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     public string GetName() => _user.Name;
     public string GetEmail() => _user.Email;
     public string GetPassword() => _password;
-    public string GetUserProfile() => _user.Perfil;
+    public Perfil GetUserProfile() => _user.Perfil;
     public Guid GetUserIdentifier() => _user.UserIdentifier;
     public long GetUserId() => _user.Id;
     private void CreateDatabase(EvolutioDbContext dbContext)

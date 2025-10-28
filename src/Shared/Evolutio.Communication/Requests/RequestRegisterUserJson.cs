@@ -1,9 +1,11 @@
-﻿namespace Evolutio.Communication.Requests;
+﻿using Evolutio.Communication.Enums;
+
+namespace Evolutio.Communication.Requests;
 public class RequestRegisterUserJson
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public required string Perfil { get; set; }
+    public Perfil Perfil { get; set; } = Perfil.Funcionario;
 }
 

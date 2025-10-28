@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using CommonTestUtilities.Cryptography;
-using Evolutio.Domain.Constants;
+using Evolutio.Domain.Enums;
 using Evolutio.Domain.Entities;
 
 namespace CommonTestUtilities.Entities;
