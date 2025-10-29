@@ -31,7 +31,7 @@ public class DoLoginUseCase : IDoLoginUseCase
         _userReadOnlyRepository = userReadOnlyRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<ResponseRegisteredUserJson> Execute(RequestLoginJson request)
+    public async Task<ResponseLoggedUserJson> Execute(RequestLoginJson request)
     {
         var user = await _userReadOnlyRepository.GetByEmail(request.Email);
 
@@ -46,7 +46,7 @@ public class DoLoginUseCase : IDoLoginUseCase
             RefreshToken = await CreateAndSaveRefreshToken(user)
         };
 
-        return new ResponseRegisteredUserJson(user.Name, tokens);
+        return new ResponseLoggedUserJson(user.Name, tokens);
     }
     private async Task<string> CreateAndSaveRefreshToken(Domain.Entities.User user)
     {

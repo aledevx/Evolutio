@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Evolutio.Communication.Requests;
-using Evolutio.Communication.Responses;
 using Evolutio.Domain.Repositories;
-using Evolutio.Domain.Repositories.Token;
 using Evolutio.Domain.Repositories.User;
 using Evolutio.Domain.Security.Cryptography;
-using Evolutio.Domain.Security.Tokens;
 using Evolutio.Exception;
 using Evolutio.Exception.ExceptionsBase;
 
@@ -17,28 +14,19 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordEncripter _passwordEncripter;
     private readonly IMapper _mapper;
-    private readonly ITokenRepository _tokenRepository;
-    private readonly IAccessTokenGenerator _accessTokenGenerator;
-    private readonly IRefreshTokenGenerator _refreshTokenGenerator;
     public RegisterUserUseCase(IUserWriteOnlyRepository writeOnlyRepository,
         IUserReadOnlyRepository readOnlyRepository,
         IUnitOfWork unitOfWork,
         IPasswordEncripter passwordEncripter,
-        IMapper mapper,
-        ITokenRepository tokenRepository,
-        IAccessTokenGenerator accessTokenGenerator,
-        IRefreshTokenGenerator refreshTokenGenerator)
+        IMapper mapper)
     {
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
         _unitOfWork = unitOfWork;
         _passwordEncripter = passwordEncripter;
         _mapper = mapper;
-        _tokenRepository = tokenRepository;
-        _accessTokenGenerator = accessTokenGenerator;
-        _refreshTokenGenerator = refreshTokenGenerator;
     }
-    public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request)
+    public async Task Execute(RequestRegisterUserJson request)
     {
         await Validate(request);
 
@@ -47,19 +35,6 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         await _writeOnlyRepository.Add(user);
         await _unitOfWork.CommitAsync();
-
-        /// TODO: CRIAR E RETORNAR OS TOKENS JWT
-        /// 
-
-        var tokens = new ResponseTokensJson 
-        {
-            AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier, user.Perfil),
-            RefreshToken = await CreateAndSaveRefreshToken(user)
-        };
-
-        var result = new ResponseRegisteredUserJson(user.Name, tokens);
-
-        return result;
 
     }
     private async Task Validate(RequestRegisterUserJson request)
@@ -81,20 +56,6 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             throw new ErrorOnValidationException(errorsMessages);
         }
 
-    }
-    private async Task<string> CreateAndSaveRefreshToken(Domain.Entities.User user)
-    {
-        var refreshToken = new Domain.Entities.RefreshToken
-        {
-            UserId = user.Id,
-            Value = _refreshTokenGenerator.Generate()
-        };
-
-        await _tokenRepository.SaveNewRefreshToken(refreshToken);
-
-        await _unitOfWork.CommitAsync();
-
-        return refreshToken.Value;
     }
 }
 

@@ -7,7 +7,7 @@ namespace Evolutio.API.Controllers;
 public class LoginController : EvolutioBaseController
 {
     [HttpPost]
-    [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseLoggedUserJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login([FromBody] RequestLoginJson request, [FromServices] IDoLoginUseCase useCase)
     {
