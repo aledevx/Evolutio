@@ -1,4 +1,6 @@
-﻿using Evolutio.Application.UseCases.Login.DoLogin;
+﻿using Evolutio.API.Attributes;
+using Evolutio.Application.UseCases.Login.DoLogin;
+using Evolutio.Application.UseCases.Login.DoLogout;
 using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -14,5 +16,15 @@ public class LoginController : EvolutioBaseController
         var response = await useCase.Execute(request);
 
         return Ok(response);
+    }
+    [HttpDelete]
+    [Route("/logout")]
+    [AuthenticatedUser]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> Logout([FromServices] IDoLogoutUseCase useCase)
+    {
+        await useCase.Execute();
+
+        return NoContent();
     }
 }

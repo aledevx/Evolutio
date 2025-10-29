@@ -10,6 +10,7 @@ namespace WebApi.Test;
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private Evolutio.Domain.Entities.User _user = default!;
+    private Evolutio.Domain.Entities.RefreshToken _refreshToken = default!;
     private string _password = string.Empty;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -50,11 +51,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         (_user, _password) = UserBuilder.Build();
 
+        _refreshToken = RefreshTokenBuilder.Build(_user);
+
         // Garante que o banco esteja "limpo" antes de recriar
         dbContext.Database.EnsureDeleted();
 
         // Adiciona o usuário criado ao banco
         dbContext.Users.Add(_user);
+
+        // Adiciona o refresh token ao banco
+        dbContext.RefreshTokens.Add(_refreshToken);
 
         // Persiste as alterações
         dbContext.SaveChanges();

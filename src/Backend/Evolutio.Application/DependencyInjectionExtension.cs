@@ -1,5 +1,6 @@
 ﻿using Evolutio.Application.Services.AutoMapper;
 using Evolutio.Application.UseCases.Login.DoLogin;
+using Evolutio.Application.UseCases.Login.DoLogout;
 using Evolutio.Application.UseCases.User.Delete;
 using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Profile;
@@ -26,6 +27,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
         services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
         services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
+        services.AddScoped<IDoLogoutUseCase, DoLogoutUseCase>();
     }
     private static void AddIdEncoder(IServiceCollection services, IConfiguration configuration)
     {

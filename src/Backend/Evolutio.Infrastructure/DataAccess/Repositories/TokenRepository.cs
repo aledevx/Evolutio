@@ -18,6 +18,13 @@ public class TokenRepository : ITokenRepository
             .FirstOrDefaultAsync(token => token.Value.Equals(refreshToken));
     }
 
+    public void RemoveAllRefreshTokens(long userId)
+    {
+        var tokens = _dbContext.RefreshTokens.Where(token => token.UserId == userId);
+
+        _dbContext.RemoveRange(tokens);
+    }
+
     public async Task SaveNewRefreshToken(RefreshToken refreshToken)
     {
         var tokens = _dbContext.RefreshTokens.Where(token => token.UserId == refreshToken.UserId);
