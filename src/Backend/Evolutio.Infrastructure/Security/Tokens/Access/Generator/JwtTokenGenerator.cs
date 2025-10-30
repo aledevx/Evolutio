@@ -1,4 +1,5 @@
-﻿using Evolutio.Domain.Security.Tokens;
+﻿using Evolutio.Domain.Enums;
+using Evolutio.Domain.Security.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,12 +14,12 @@ public class JwtTokenGenerator : JwtTokenHandler, IAccessTokenGenerator
         _expirationTimeMinutes = expirationTimeMinutes;
         _signingKey = signingKey;
     }
-    public string Generate(Guid userIdentifier, string perfil)
+    public string Generate(Guid userIdentifier, Perfil perfil)
     {
         var claims = new List<Claim>()
         {
             new Claim(ClaimTypes.Sid, userIdentifier.ToString()),
-            new Claim(ClaimTypes.Role, perfil)
+            new Claim(ClaimTypes.Role, perfil.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

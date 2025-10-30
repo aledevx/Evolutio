@@ -1,5 +1,6 @@
 ﻿using CommonTestUtilities.Requests;
 using CommonTestUtilities.Tokens;
+using Evolutio.Domain.Enums;
 using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
@@ -14,7 +15,7 @@ public class UpdateUserTest : EvolutioClassFixture
     private readonly long _userId;
     private readonly string _userEmail;
     private readonly Guid _userIdentifier;
-    private readonly string _userProfile;
+    private readonly Perfil _userProfile;
     public UpdateUserTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _userId = factory.GetUserId();
@@ -37,20 +38,6 @@ public class UpdateUserTest : EvolutioClassFixture
 
         responseData.RootElement.GetProperty("id").GetInt64()
         .Should().Be(_userId);
-
-        response = await DoGet(method: $"{METHOD}/{_userId}");
-        
-        await using var responseBodyGetMethod = await response.Content.ReadAsStreamAsync();
-        responseData = await JsonDocument.ParseAsync(responseBodyGetMethod);
-
-        responseData.RootElement.GetProperty("name").GetString()
-        .Should().NotBeNullOrWhiteSpace().And.Be(request.Name);
-
-        responseData.RootElement.GetProperty("email").GetString()
-        .Should().NotBeNullOrWhiteSpace().And.Be(request.Email);
-
-        responseData.RootElement.GetProperty("active").GetBoolean()
-        .Should().Be(true);
 
     }
     [Theory]

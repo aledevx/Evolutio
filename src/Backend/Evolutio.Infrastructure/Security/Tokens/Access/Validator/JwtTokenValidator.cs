@@ -1,4 +1,5 @@
-﻿using Evolutio.Domain.Security.Tokens;
+﻿using Evolutio.Domain.Enums;
+using Evolutio.Domain.Security.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,7 +12,7 @@ public class JwtTokenValidator : JwtTokenHandler, IAccessTokenValidator
     {
         _signingKey = signingKey;
     }
-    public (Guid identifier, string perfil) ValidateAndGetUserIdentifier(string token)
+    public (Guid identifier, Perfil perfil) ValidateAndGetUserIdentifierAndRole(string token)
     {
         var validationParameters = new TokenValidationParameters 
         {
@@ -29,7 +30,7 @@ public class JwtTokenValidator : JwtTokenHandler, IAccessTokenValidator
 
         var userPerfil = principal.Claims.First(c => c.Type == ClaimTypes.Role).Value;
 
-        return (identifier: Guid.Parse(userIdentifier), perfil: userPerfil);
+        return (identifier: Guid.Parse(userIdentifier), perfil: Enum.Parse<Perfil>(userPerfil));
 
     }
 }

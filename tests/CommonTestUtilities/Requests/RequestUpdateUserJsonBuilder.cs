@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Evolutio.Communication.Constants;
+using Evolutio.Communication.Enums;
 using Evolutio.Communication.Requests;
 
 namespace CommonTestUtilities.Requests;

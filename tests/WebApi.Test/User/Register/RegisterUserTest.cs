@@ -1,4 +1,7 @@
-﻿using CommonTestUtilities.Requests;
+﻿using CommonTestUtilities.Entities;
+using CommonTestUtilities.Requests;
+using CommonTestUtilities.Tokens;
+using Evolutio.Domain.Enums;
 using Evolutio.Exception;
 using FluentAssertions;
 using System.Globalization;
@@ -11,32 +14,39 @@ namespace WebApi.Test.User.Register;
 public class RegisterUserTest : EvolutioClassFixture
 {
     private readonly string METHOD = "user";
+    private readonly Guid _userIdentifier;
+    private readonly Perfil _perfil;
     public RegisterUserTest(CustomWebApplicationFactory factory) : base(factory)
-    { }
+    {
+        _userIdentifier = factory.GetUserIdentifier();
+        _perfil = factory.GetUserProfile();
+    }
     [Fact]
     public async Task Success()
     {
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _perfil);
+
         var request = RequestRegisterUserJsonBuilder.Build();
 
-        var response = await DoPost(method: METHOD, request: request);
+        var response = await DoPost(method: METHOD, request: request, token:token);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
         await using var responseBody = await response.Content.ReadAsStreamAsync();
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
-        responseData.RootElement.GetProperty("name").GetString().Should().Be(request.Name);
-        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().Should().NotBeNullOrEmpty();
-        responseData.RootElement.GetProperty("tokens").GetProperty("refreshToken").GetString().Should().NotBeNullOrEmpty();
+        responseData.RootElement.GetProperty("message").GetString().Should().NotBeNullOrWhiteSpace();
     }
     [Theory]
     [ClassData(typeof(CultureInlineDataTest))]
     public async Task Error_Empty_Name(string culture)
     {
+        var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier, _perfil);
+
         var request = RequestRegisterUserJsonBuilder.Build();
         request.Name = string.Empty;
 
-        var response = await DoPost(method: METHOD, request: request, culture: culture);
+        var response = await DoPost(method: METHOD, request: request, culture: culture, token: token);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         await using var responseBody = await response.Content.ReadAsStreamAsync();

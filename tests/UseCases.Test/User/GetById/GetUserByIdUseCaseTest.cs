@@ -39,7 +39,7 @@ public class GetUserByIdUseCaseTest
         var mapper = MapperBuilder.Build();
         if (user is not null)
         {
-            userReadOnlyRepository.GetByUserIdentifier(user);
+            userReadOnlyRepository.GetById(user);
         }
 
         return new GetUserByIdUseCase(userReadOnlyRepository.Build(), mapper);

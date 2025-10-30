@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Evolutio.API.Attributes;
+using Evolutio.Communication.Enums;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Evolutio.API.Controllers;
 
 public class HealthController : EvolutioBaseController
 {
-
     [HttpGet]
     public async Task<IActionResult> Get([FromServices] HealthCheckService healthCheckService)
     {
@@ -25,8 +26,21 @@ public class HealthController : EvolutioBaseController
 
         return Ok(result);
     }
-    [HttpGet("test")]
-    public IActionResult Funfando()
+    [AuthenticatedUser(Perfil.Admin)]
+    [HttpGet("only-admin")]
+    public IActionResult TestandoRoleFuncionario()
+    {
+        return Ok("Tudo ok até aqui");
+    }
+    [AuthenticatedUser(Perfil.Funcionario)]
+    [HttpGet("only-funcionario")]
+    public IActionResult TestandoRoleAdmin()
+    {
+        return Ok("Tudo ok até aqui");
+    }
+    [AuthenticatedUser(Perfil.Admin, Perfil.Funcionario)]
+    [HttpGet("admin-and-funcionario")]
+    public IActionResult TestandoRoleParaAmbos()
     {
         return Ok("Tudo ok até aqui");
     }

@@ -1,5 +1,4 @@
-﻿using Evolutio.Communication.Constants;
-using Evolutio.Communication.Requests;
+﻿using Evolutio.Communication.Requests;
 using Evolutio.Exception;
 using FluentValidation;
 
@@ -14,11 +13,7 @@ public class UpdateUserValidator : AbstractValidator<RequestUpdateUserJson>
         {
             RuleFor(user => user.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
         });
-        RuleFor(user => user.Perfil).NotEmpty().WithMessage(ResourceMessagesException.PROFILE_EMPTY);
-        When(user => String.IsNullOrEmpty(user.Perfil) is false, () =>
-        {
-            RuleFor(user => user.Perfil).Must(p => Perfil.Todos.Contains(p)).WithMessage(ResourceMessagesException.PROFILE_INVALID);
-        });
+        RuleFor(user => user.Perfil).IsInEnum().WithMessage(ResourceMessagesException.PROFILE_INVALID);
     }
 }
 
