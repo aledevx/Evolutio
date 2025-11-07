@@ -1,0 +1,38 @@
+﻿@page "/"
+@layout Layout.CleanLayout
+@inherits LoginPage
+
+@inject NavigationManager Navigation
+
+<PageTitle>Tela de login</PageTitle>
+
+<MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" >
+    <MudItem xs="12" sm="8" md="4">
+        <MudPaper Class="pa-4 d-flex flex-column align-center rounded-xl gap-4 " Style="@($"background:{Colors.BlueGray.Darken4};")">
+            <MudContainer Class="d-flex flex-column align-center" Style="height: 30%;">
+
+            </MudContainer>
+            <MudContainer Class="d-flex flex-column align-center">
+                <MudText Typo="Typo.h2" Class="login-tittle">EVO</MudText>
+                <MudText Typo="Typo.caption" Class="login-subtittle">Test skills for software development...</MudText>
+            </MudContainer>
+            <MudContainer Class="d-flex flex-column align-center gap-4 py-4">
+                <MudTextField Variant="Variant.Outlined" Label="Email" @bind-Value="InputModel.Email" Margin="Margin.Dense" InputType="InputType.Text" Pattern="[0-9]{11}$" MaxLength="11" />
+                <MudTextField Variant="Variant.Outlined" Label="Senha" @bind-Value="InputModel.Password" InputType="InputType.Password" Margin="Margin.Dense" />
+                @if (IsBusy)
+                {
+                    <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                }
+                else
+                {
+                    <MudButton Class="rounded-xl"
+                    ButtonType="ButtonType.Submit" 
+                    Variant="Variant.Filled" 
+                    Size="Size.Small" 
+                    Color="Color.Primary" 
+                    OnClick="OnValidSubmitAsync" Style="width: 60%; font-weight: inherit; text-transform: initial;">Acessar</MudButton>
+                }
+            </MudContainer>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

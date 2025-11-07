@@ -1,0 +1,16 @@
+.login-tittle {
+    font: bolder;
+    font: normal normal bold 70px/94px Segoe UI;
+    letter-spacing: 0px;
+    color: #33691E;
+    opacity: 1;
+}
+.login-subtittle {
+    font-size: 10px;
+    text-align: left;
+    font: normal normal normal 12px/16px Segoe UI;
+    letter-spacing: 0px;
+    color: #76FF03;
+    opacity: 1;
+    margin-top: -5px;
+}
