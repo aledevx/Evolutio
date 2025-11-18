@@ -1,4 +1,5 @@
 ﻿
+using Evolutio.Communication;
 using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
 using Evolutio.Domain.Repositories;
@@ -35,7 +36,7 @@ public class DoLoginUseCase : IDoLoginUseCase
     {
         var user = await _userReadOnlyRepository.GetByEmail(request.Email);
 
-        if (user is null || user.Password.Equals(_passwordEncripter.Encrypt(request.Password))) 
+        if (user is null || _passwordEncripter.IsValid(request.Password, user.Password) is false) 
         {
             throw new InvalidLoginException();
         }
@@ -45,7 +46,7 @@ public class DoLoginUseCase : IDoLoginUseCase
             AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier, user.Perfil),
             RefreshToken = await CreateAndSaveRefreshToken(user)
         };
-
+      
         return new ResponseLoggedUserJson(user.Name, tokens);
     }
     private async Task<string> CreateAndSaveRefreshToken(Domain.Entities.User user)
