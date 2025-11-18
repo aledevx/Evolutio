@@ -3,6 +3,7 @@ using Evolutio.API.Filters;
 using Evolutio.API.Middlewares;
 using Evolutio.API.Token;
 using Evolutio.Application;
+using Evolutio.Communication;
 using Evolutio.Domain.Security.Tokens;
 using Evolutio.Infrastructure;
 using Evolutio.Infrastructure.Extensions;
@@ -12,8 +13,10 @@ using Microsoft.OpenApi.Models;
 var AUTHENTICATION_TYPE = "Bearer";
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
+
+builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName, policy =>
+policy.WithOrigins([Configuration.BackendUrl, Configuration.FrontendUrl]).AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -81,6 +84,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<CultureMiddleware>();
 
+app.UseCors(Configuration.CorsPolicyName);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
