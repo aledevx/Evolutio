@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 
 namespace WebApi.Test;
 public class EvolutioClassFixture : IClassFixture<CustomWebApplicationFactory>
@@ -50,7 +49,7 @@ public class EvolutioClassFixture : IClassFixture<CustomWebApplicationFactory>
         if (string.IsNullOrWhiteSpace(token))
             return;
 
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        _httpClient.DefaultRequestHeaders.Add("Cookie", $"access_token={token}");
     }
 }
 
