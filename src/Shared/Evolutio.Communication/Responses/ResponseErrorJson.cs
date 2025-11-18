@@ -1,11 +1,15 @@
 ﻿namespace Evolutio.Communication.Responses;
 public class ResponseErrorJson
 {
-    public IList<string> Errors { get; set; }
+    public IList<string> Errors { get; set; } = [];
     public bool TokenIsExpired { get; set; }
     public ResponseErrorJson(IList<string> errors)
     {
         Errors = errors;
+    }
+    public ResponseErrorJson()
+    {
+        
     }
     public ResponseErrorJson(string error)
     {

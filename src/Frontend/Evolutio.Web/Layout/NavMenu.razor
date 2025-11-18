@@ -1,0 +1,18 @@
+﻿@using Blazored.LocalStorage
+@inherits NavMenuPage
+
+<MudPaper Width="250px" Class="py-3" Elevation="0" Style="@($"background:{Colors.BlueGray.Darken4};")">
+    <MudNavMenu>
+        <MudText Typo="Typo.h6" Href="/home" Class="px-4">Evolutio</MudText>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="text-transform: uppercase; font-weight: 600;">@UserName.Trim('"')</MudText>
+        <MudDivider Class="my-1" Style="@($"border-color:{Colors.LightGreen.Accent4}")" />
+        <MudNavLink Href="/sql-status">Db Connection</MudNavLink>
+        <MudNavGroup Title="Users" Expanded="true">
+            <MudNavLink Href="/users/register">Register</MudNavLink>
+            <MudNavLink Href="/users/profile">Profile</MudNavLink>
+            <MudNavLink Href="/users/update">Update</MudNavLink>
+            <MudNavLink Href="/users/delete">Delete</MudNavLink>
+            <MudNavLink Href="/users/get-by-id">Get By Id</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</MudPaper>

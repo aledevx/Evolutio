@@ -8,6 +8,7 @@ using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
 using Evolutio.Communication.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Evolutio.Communication.Routes.EvolutioApi.User;
 
 namespace Evolutio.API.Controllers;
 [AuthenticatedUser]
@@ -57,7 +58,7 @@ public class UserController : EvolutioBaseController
 
         return NoContent();
     }
-    [HttpGet("profile")]
+    [HttpGet(UserRoutes.Profile)]
     [ProducesResponseType(typeof(ResponseUserProfileJson),StatusCodes.Status200OK)]
     public async Task<IActionResult> Profile([FromServices] IGetUserProfileUseCase useCase) 
     {

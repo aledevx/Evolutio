@@ -1,0 +1,25 @@
+﻿@inherits MainLayoutPage
+
+<MudThemeProvider Theme="Matrix"/>
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Style="text-transform: uppercase; font-weight: 600;" Contextual>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Style="@($"color:{Colors.LightGreen.Accent4}")" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
+        Evolutio App
+        <MudSpacer />
+        <MudMenu Icon="@Icons.Material.Filled.Logout"
+                 Color="Color.Primary"
+                 AriaLabel="Open user menu" TransformOrigin="Origin.TopCenter">
+            <MudMenuItem Label="Logout" Style="@($"background-color:{Colors.BlueGray.Darken4}")" onclick="LogoutAsync" />
+        </MudMenu>
+    </MudAppBar>
+    <MudDrawer @bind-Open="@DrawerOpen" Style="@($"background:{Colors.BlueGray.Darken4};")">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

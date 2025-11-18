@@ -71,13 +71,8 @@ public class AuthenticadedUserFilter : IAsyncAuthorizationFilter
     }
     private static string TakeOnRequest(AuthorizationFilterContext context) 
     {
-        var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
+        var accessToken = context.HttpContext.Request.Cookies.TryGetValue("access_token", out var token);
 
-        if (string.IsNullOrWhiteSpace(authentication)) 
-        {
-            throw new NoPermissionException(ResourceMessagesException.NO_TOKEN);
-        }
-
-        return authentication["Bearer ".Length..].Trim();
+        return token!;
     }
 }

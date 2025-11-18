@@ -1,0 +1,66 @@
+﻿@using Evolutio.Web.Extensions
+@using Evolutio.Web.Handlers.User.Profile
+@using Microsoft.AspNetCore.Components.Routing
+@inject NavigationManager Navigation
+@inherits AppPage
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="HandleNavigation">
+        <Found Context="routeData">
+            @if (_allowRenderRoute)
+            {
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            }
+            else
+            {
+                @* Nada é renderizado para a rota alvo (evita flicker) *@
+            }
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+    // Flag que decide se a rota pode ser renderizada
+    private bool _allowRenderRoute = true;
+
+    private async Task HandleNavigation(Microsoft.AspNetCore.Components.Routing.NavigationContext context)
+    {
+        // Reseta permissões antes de checar
+        _allowRenderRoute = false;
+
+        try
+        {
+            // Se a rota é "/login" e já está autenticado -> redireciona direto pra /home
+            var path = (context.Path ?? "").Trim('/').ToLowerInvariant();
+            var isAuth = await IsAuthenticaded();
+
+            if (path == "login" && isAuth)
+            {
+                // o Navigation.NavigateTo cancela a intenção original ao navegar para /home
+                Navigation.NavigateTo("/home", true);
+                return;
+            }
+
+            // Se for rota diferente de login e NÃO autenticado -> ir pra /login
+            if (!isAuth && path != "login")
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+
+            // Se chegou aqui, está autenticado ou indo para login enquanto não autenticado:
+            _allowRenderRoute = true;
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+}

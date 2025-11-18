@@ -1,0 +1,23 @@
+﻿@page "/sql-status"
+@layout Layout.MainLayout
+@inherits DatabaseStatusPage
+
+<PageTitle>Database Connection Status </PageTitle>
+<MudLayout></MudLayout>
+
+
+<MudContainer Class="d-flex" Fixed="true" Style="height: 130px;">
+    <MudContainer Style="width=45%;">
+        <MudText Typo="Typo.h6">Status:<b>@Model.Status</b></MudText>
+        <MudDataGrid Class="mt-4"
+                     Items="@Model.Checks"
+                     Filterable="false" Dense="true" Hover="true">
+            <Columns>
+                <PropertyColumn Property="x => x.Name" Title="Nome" />
+                <PropertyColumn Property="x => x.Status" Title="Status" />
+                <PropertyColumn Property="x => x.Description" Title="Descrição" />
+            </Columns>
+        </MudDataGrid>
+        <MudText Typo="Typo.body2">Duração: <span style="color: orangered">@Model.TotalDuration</span> </MudText>
+    </MudContainer>
+</MudContainer>
