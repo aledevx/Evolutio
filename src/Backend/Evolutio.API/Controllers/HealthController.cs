@@ -1,28 +1,18 @@
 ﻿using Evolutio.API.Attributes;
+using Evolutio.Application.UseCases.Health.DatabaseStatus;
 using Evolutio.Communication.Enums;
+using Evolutio.Communication.Routes.EvolutioApi.Health;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Evolutio.API.Controllers;
 
 public class HealthController : EvolutioBaseController
 {
-    [HttpGet]
-    public async Task<IActionResult> Get([FromServices] HealthCheckService healthCheckService)
+    [AuthenticatedUser(Perfil.Admin)]
+    [HttpGet(HealthRoutes.DatabaseStatus)]
+    public async Task<IActionResult> DatabaseStatus([FromServices] IDatabaseStatusUseCase useCase)
     {
-        var report = await healthCheckService.CheckHealthAsync();
-
-        var result = new
-        {
-            status = report.Status.ToString(),
-            checks = report.Entries.Select(e => new
-            {
-                name = e.Key,
-                status = e.Value.Status.ToString(),
-                description = e.Value.Description
-            }),
-            totalDuration = report.TotalDuration.TotalMilliseconds
-        };
+        var result = await useCase.Execute();
 
         return Ok(result);
     }
