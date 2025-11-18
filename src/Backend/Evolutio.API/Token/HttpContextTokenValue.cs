@@ -10,8 +10,8 @@ public class HttpContextTokenValue : ITokenProvider
     }
     public string Value()
     {
-        var authentication = _contextAccessor.HttpContext!.Request.Headers.Authorization.ToString();
+        var accessToken = _contextAccessor.HttpContext!.Request.Cookies.TryGetValue("access_token", out var token);
 
-        return authentication["Bearer ".Length..].Trim();
+        return token!;
     }
 }
