@@ -1,16 +1,53 @@
 .login-tittle {
+    font-family: 'IBM Plex Mono', monospace;
     font: bolder;
-    font: normal normal bold 70px/94px Segoe UI;
     letter-spacing: 0px;
     color: #33691E;
     opacity: 1;
+    color: #76FF03;
 }
 .login-subtittle {
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
     text-align: left;
-    font: normal normal normal 12px/16px Segoe UI;
     letter-spacing: 0px;
-    color: #76FF03;
     opacity: 1;
     margin-top: -5px;
+    color: #76FF03;
+}
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #76FF03;
+    background-color: #263238;
+}
+.loading-screen {
+    display: block;
+    /* Adicione estilos para sua tela de loading */
+}
+
+.blazor-loaded #loading-screen {
+    display: none;
+    /* Esta classe é adicionada ao body/html quando o Blazor carrega */
+}
+.login-paper {
+    max-width: 420px;
+    margin: 48px auto;
+    padding: 24px;
+    border-radius: 8px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
 }

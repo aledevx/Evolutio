@@ -1,6 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits CleanLayoutPage
 
-<MudThemeProvider Theme="Matrix" />
+<MudThemeProvider Theme="VoidTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -10,32 +10,3 @@
         @Body
     </MudMainContent>
 </MudLayout>
-
-@code {
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-    MudTheme Matrix = new MudTheme()
-    {
-        PaletteLight = new PaletteLight()
-        {
-            Primary = Colors.Green.Darken3,
-            Secondary = Colors.DeepPurple.Darken1,
-            Tertiary = Colors.Teal.Default,
-            AppbarBackground = Colors.Blue.Darken4,
-            Background = Colors.Gray.Darken4
-        },
-        PaletteDark = new PaletteDark()
-        {
-            Primary = Colors.Blue.Lighten1
-        },
-        LayoutProperties = new LayoutProperties()
-        {
-            DrawerWidthLeft = "260px",
-            DrawerWidthRight = "300px"
-        }
-    };
-}

@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits MainLayoutPage
 
 <MudThemeProvider Theme="Matrix"/>
 <MudPopoverProvider />
@@ -6,44 +6,20 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+    <MudAppBar Style="text-transform: uppercase; font-weight: 600;" Contextual>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Style="@($"color:{Colors.LightGreen.Accent4}")" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
         Evolutio App
+        <MudSpacer />
+        <MudMenu Icon="@Icons.Material.Filled.Logout"
+                 Color="Color.Primary"
+                 AriaLabel="Open user menu" TransformOrigin="Origin.TopCenter">
+            <MudMenuItem Label="Logout" Style="@($"background-color:{Colors.BlueGray.Darken4}")" onclick="LogoutAsync" />
+        </MudMenu>
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen" Style="@($"background:{Colors.BlueGray.Darken4};")">
+    <MudDrawer @bind-Open="@DrawerOpen" Style="@($"background:{Colors.BlueGray.Darken4};")">
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
-
-@code {
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
-    MudTheme Matrix = new MudTheme()
-    {
-        PaletteLight = new PaletteLight()
-        {
-            Primary = Colors.Green.Darken3,
-            Secondary = Colors.DeepPurple.Darken1,
-            Tertiary = Colors.Teal.Default,
-            AppbarBackground = Colors.BlueGray.Darken3,
-            Background = Colors.BlueGray.Darken4,
-        },
-        PaletteDark = new PaletteDark()
-        {
-            Primary = Colors.Blue.Lighten1,
-        },
-        LayoutProperties = new LayoutProperties()
-        {
-            DrawerWidthLeft = "260px",
-            DrawerWidthRight = "300px",
-        }
-    };
-}

@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/login"
 @layout Layout.CleanLayout
 @inherits LoginPage
 
@@ -17,7 +17,7 @@
                 <MudText Typo="Typo.caption" Class="login-subtittle">Test skills for software development...</MudText>
             </MudContainer>
             <MudContainer Class="d-flex flex-column align-center gap-4 py-4">
-                <MudTextField Variant="Variant.Outlined" Label="Email" @bind-Value="InputModel.Email" Margin="Margin.Dense" InputType="InputType.Text" Pattern="[0-9]{11}$" MaxLength="11" />
+                <MudTextField Variant="Variant.Outlined" Label="Email" @bind-Value="InputModel.Email" Margin="Margin.Dense" InputType="InputType.Text"/>
                 <MudTextField Variant="Variant.Outlined" Label="Senha" @bind-Value="InputModel.Password" InputType="InputType.Password" Margin="Margin.Dense" />
                 @if (IsBusy)
                 {
