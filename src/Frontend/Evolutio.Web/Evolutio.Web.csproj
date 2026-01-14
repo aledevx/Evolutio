@@ -17,4 +17,11 @@
     <ProjectReference Include="..\..\Shared\Evolutio.Communication\Evolutio.Communication.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\User\GetById\" />
+    <Folder Include="Handlers\User\Delete\" />
+    <Folder Include="Handlers\User\Update\" />
+    <Folder Include="Handlers\User\Register\" />
+  </ItemGroup>
+
 </Project>
