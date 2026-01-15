@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -15,6 +15,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Evolutio.Communication\Evolutio.Communication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\User\GetById\" />
+    <Folder Include="Handlers\User\Delete\" />
+    <Folder Include="Handlers\User\Update\" />
+    <Folder Include="Handlers\User\Register\" />
   </ItemGroup>
 
 </Project>

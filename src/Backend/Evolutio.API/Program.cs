@@ -1,10 +1,12 @@
 using Evolutio.API.Converters;
 using Evolutio.API.Filters;
 using Evolutio.API.Middlewares;
+using Evolutio.API.Services.Cookie;
 using Evolutio.API.Token;
 using Evolutio.Application;
 using Evolutio.Communication;
 using Evolutio.Domain.Security.Tokens;
+using Evolutio.Domain.Services.Cookie;
 using Evolutio.Infrastructure;
 using Evolutio.Infrastructure.Extensions;
 using Evolutio.Infrastructure.Migrations;
@@ -36,6 +38,8 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 // Add context accessor
 builder.Services.AddHttpContextAccessor();
+// Add cookie service
+builder.Services.AddScoped<ICookieService, CookieService>();
 // Add low case routing
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 // Add Swagger
