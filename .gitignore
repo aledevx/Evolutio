@@ -3,6 +3,13 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Appsettings (não versionar configs sensíveis)
+appsettings*.json
+
+# Versionar appsettings de exemplo
+!appsettings.Example.json
+!appsettings.Sample.json
+
 # dotenv files
 .env
 
