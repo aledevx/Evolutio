@@ -1,4 +1,5 @@
-﻿using Evolutio.Communication.Enums;
+﻿using Evolutio.Communication;
+using Evolutio.Communication.Enums;
 using Evolutio.Communication.Responses;
 using Evolutio.Domain.Repositories.User;
 using Evolutio.Domain.Security.Tokens;
@@ -11,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Evolutio.API.Filters;
 public class AuthenticadedUserFilter : IAsyncAuthorizationFilter
 {
+    private const string AccessCookieName = Configuration.AccessTokenCookieName;
     private readonly IAccessTokenValidator _accessTokenValidator;
     private readonly IUserReadOnlyRepository _repository;
     private readonly Perfil[] _allowedRoles;
@@ -71,7 +73,7 @@ public class AuthenticadedUserFilter : IAsyncAuthorizationFilter
     }
     private static string TakeOnRequest(AuthorizationFilterContext context) 
     {
-        var accessToken = context.HttpContext.Request.Cookies.TryGetValue("access_token", out var token);
+        var accessToken = context.HttpContext.Request.Cookies.TryGetValue(AccessCookieName, out var token);
 
         return token!;
     }
