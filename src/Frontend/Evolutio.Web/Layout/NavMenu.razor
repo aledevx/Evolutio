@@ -1,18 +1,139 @@
-﻿@using Blazored.LocalStorage
+@using Blazored.LocalStorage
 @inherits NavMenuPage
 
-<MudPaper Width="250px" Class="py-3" Elevation="0" Style="@($"background:{Colors.BlueGray.Darken4};")">
-    <MudNavMenu>
-        <MudText Typo="Typo.h6" Href="/home" Class="px-4">Evolutio</MudText>
-        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="text-transform: uppercase; font-weight: 600;">@UserName.Trim('"')</MudText>
-        <MudDivider Class="my-1" Style="@($"border-color:{Colors.LightGreen.Accent4}")" />
-        <MudNavLink Href="/sql-status">Db Connection</MudNavLink>
-        <MudNavGroup Title="Users" Expanded="true">
-            <MudNavLink Href="/users/register">Register</MudNavLink>
-            <MudNavLink Href="/users/profile">Profile</MudNavLink>
-            <MudNavLink Href="/users/update">Update</MudNavLink>
-            <MudNavLink Href="/users/delete">Delete</MudNavLink>
-            <MudNavLink Href="/users/get-by-id">Get By Id</MudNavLink>
+<MudDrawer @bind-Open="@SideMenuOpen" ClipMode="clipMode" Breakpoint="breakpoint" PreserveOpenState="preserveOpenState" Elevation="1" Variant="@DrawerVariant.Mini" Style="background-color: transparent">
+    <MudNavMenu Class="nav-menu" Dense="false">
+        <MudStack Spacing="05" Class="nav-header px-4 py-3">
+            <a href="/home">
+                <MudText Typo="Typo.subtitle1" Class="nav-title" Href="/home">
+                    Evolutio
+                </MudText>
+            </a>
+            <MudText Typo="Typo.caption" Class="nav-username">
+                @UserName.Trim('"')
+            </MudText>
+        </MudStack>
+
+        <MudDivider Class="nav-divider my-1" />
+        <MudNavLink Href="/home"
+                    Icon="@Icons.Material.Filled.Home"
+                    Match="NavLinkMatch.Prefix"
+                    Class="nav-link">
+            Home
+        </MudNavLink>
+
+        <MudNavLink Href="/sql-status"
+                    Icon="@Icons.Material.Filled.Storage"
+                    Match="NavLinkMatch.Prefix"
+                    Class="nav-link">
+            Db Connection
+        </MudNavLink>
+
+        <MudNavGroup Title="Users"
+                     Icon="@Icons.Material.Filled.People"
+                     Expanded="false"
+                     Class="nav-group">
+            <MudNavLink Href="/users/register"
+                        Icon="@Icons.Material.Filled.PersonAdd"
+                        Match="NavLinkMatch.Prefix"
+                        Class="nav-link">
+                Register
+            </MudNavLink>
+            <MudNavLink Href="/users/profile"
+                        Icon="@Icons.Material.Filled.Person"
+                        Match="NavLinkMatch.Prefix"
+                        Class="nav-link">
+                Profile
+            </MudNavLink>
+            <MudNavLink Href="/users/update"
+                        Icon="@Icons.Material.Filled.Edit"
+                        Match="NavLinkMatch.Prefix"
+                        Class="nav-link">
+                Update
+            </MudNavLink>
+            <MudNavLink Href="/users/delete"
+                        Icon="@Icons.Material.Filled.Delete"
+                        Match="NavLinkMatch.Prefix"
+                        Class="nav-link">
+                Delete
+            </MudNavLink>
+            <MudNavLink Href="/users/get-by-id"
+                        Icon="@Icons.Material.Filled.Search"
+                        Match="NavLinkMatch.Prefix"
+                        Class="nav-link">
+                Get By Id
+            </MudNavLink>
         </MudNavGroup>
     </MudNavMenu>
-</MudPaper>
+</MudDrawer>
+
+<style>
+    /* Sidebar / NavMenu com MudBlazor */
+
+    .nav-shell {
+        width: 100%;
+        height: 100%;
+        background-color: #263238 !important;
+    }
+
+    .nav-menu {
+        padding-top: 4px;
+    }
+
+    .nav-header {
+        border-radius: 12px;
+    }
+
+    .nav-title {
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #76FF03;
+    }
+
+    .nav-username {
+        text-transform: uppercase;
+        font-weight: 500;
+        opacity: 0.7;
+        color: #b71c1c;
+    }
+
+    .nav-divider {
+        border-color: rgba(118, 255, 3, 0.22) !important;
+    }
+
+    .nav-link ::deep .mud-nav-link {
+        border-radius: 999px;
+    }
+
+    .nav-link ::deep .mud-nav-link,
+    .nav-group ::deep .mud-nav-link {
+        color: #76FF31;
+    }
+
+        .nav-link ::deep .mud-nav-link .mud-icon-root,
+        .nav-group ::deep .mud-nav-link .mud-icon-root {
+            color: currentColor;
+        }
+
+        .nav-link ::deep .mud-nav-link.mud-nav-link-active,
+        .nav-group ::deep .mud-nav-link.mud-nav-link-active {
+            background-color: rgba(118, 255, 3, 0.12);
+            color: #76FF31;
+        }
+
+        .nav-link ::deep .mud-nav-link:hover,
+        .nav-group ::deep .mud-nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+    .nav-group ::deep .mud-expand-panel-header {
+        border-radius: 999px;
+    }
+
+    @@media (min-width: 960px) {
+        .nav-shell {
+            width: 260px;
+        }
+    }
+</style>

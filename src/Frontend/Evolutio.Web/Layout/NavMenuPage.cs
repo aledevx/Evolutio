@@ -1,13 +1,17 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Evolutio.Web.Layout;
 public class NavMenuPage : ComponentBase
 {
     #region Properties
-    public bool CollapseNavMenu { get; set; } = true;
+    [Parameter]
+    public bool SideMenuOpen { get; set; }
+    public DrawerClipMode clipMode = DrawerClipMode.Always;
+    public Breakpoint breakpoint = Breakpoint.Lg;
+    public bool preserveOpenState = true;
     public string UserName { get; set; } = string.Empty;
-    public string? NavMenuCssClass => CollapseNavMenu ? "collapse" : null;
     #endregion
 
     #region Services
@@ -16,11 +20,6 @@ public class NavMenuPage : ComponentBase
     #endregion
 
     #region Methods
-
-    public void ToggleNavMenu()
-    {
-        CollapseNavMenu = !CollapseNavMenu;
-    }
     protected override async Task OnInitializedAsync()
     {
         UserName = await LocalStorage.GetItemAsStringAsync("userName") ?? "Logged Out";

@@ -1,25 +1,163 @@
-﻿@inherits MainLayoutPage
+@inherits MainLayoutPage
+@inject IJSRuntime JS
 
 <MudThemeProvider Theme="Matrix"/>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Style="text-transform: uppercase; font-weight: 600;" Contextual>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Style="@($"color:{Colors.LightGreen.Accent4}")" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
-        Evolutio App
+<MudLayout Class="main-layout">
+    <MudAppBar Elevation="0" Dense="true" Class="main-appbar" Contextual>
+        <MudIconButton Icon="@(_drawerOpen ? Icons.Material.Filled.Close : Icons.Material.Filled.Menu)"
+                       Edge="Edge.Start"
+                       Color="Color.Inherit"
+                       Class="@($"main-appbar-menu {(_drawerOpen ? "main-appbar-menu-open" : string.Empty)}")"
+                       OnClick="ToggleDrawer" />
+
+        <MudText Typo="Typo.subtitle2" Class="main-appbar-title">
+            Evolutio App
+        </MudText>
+
         <MudSpacer />
-        <MudMenu Icon="@Icons.Material.Filled.Logout"
+
+        <MudMenu Icon="@Icons.Material.Filled.MoreVert"
                  Color="Color.Primary"
-                 AriaLabel="Open user menu" TransformOrigin="Origin.TopCenter">
-            <MudMenuItem Label="Logout" Style="@($"background-color:{Colors.BlueGray.Darken4}")" onclick="LogoutAsync" />
+                 OffsetY="true"
+                 AriaLabel="Open user menu"
+                 TransformOrigin="Origin.TopCenter">
+            <MudMenuItem Icon="@Icons.Material.Filled.Logout"
+                         OnClick="LogoutAsync">
+                Logout
+            </MudMenuItem>
         </MudMenu>
     </MudAppBar>
-    <MudDrawer @bind-Open="@DrawerOpen" Style="@($"background:{Colors.BlueGray.Darken4};")">
-        <NavMenu />
+
+    <MudDrawer @bind-Open="@_drawerOpen"
+               Elevation="1"
+               Variant="DrawerVariant.Responsive"
+               Anchor="Anchor.Left"
+               ClipMode="DrawerClipMode.Always"
+               Class="main-drawer" Style="background-color: transparent">
+        <NavMenu SideMenuOpen="@_drawerOpen" />
     </MudDrawer>
-    <MudMainContent>
-        @Body
+
+    <MudMainContent Class="main-content" Id="page-liquid-root">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="main-content-inner">
+            @Body
+        </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+
+
+@code {
+    private IJSObjectReference? _liquidModule;
+    private bool _liquidInitialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_liquidInitialized)
+            return;
+
+        _liquidModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/liquidClick.js");
+        await _liquidModule.InvokeVoidAsync("initLiquidClick", "page-liquid-root");
+        _liquidInitialized = true;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_liquidModule is not null)
+            {
+                await _liquidModule.InvokeVoidAsync("disposeLiquidClick", "page-liquid-root");
+                await _liquidModule.DisposeAsync();
+            }
+        }
+        catch
+        {
+            // ignore JS dispose errors
+        }
+    }
+}
+
+        <style>
+    /* Layout principal com MudBlazor */
+
+    .main-layout {
+        min-height: 100vh;
+    }
+
+    .main-appbar {
+        background: linear-gradient(90deg, rgba(38, 50, 56, 0.98), rgba(38, 50, 56, 0.94));
+        border-bottom: 1px solid rgba(118, 255, 3, 0.18);
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .main-appbar-menu {
+        color: #76FF03;
+        transition: transform 0.25s ease, color 0.2s ease;
+    }
+
+    .main-appbar-menu-open {
+        transform: rotate(90deg);
+    }
+
+    .main-appbar-title {
+        letter-spacing: 0.18em;
+        font-weight: 600;
+    }
+
+    .main-drawer {
+        background-color: #263238 !important;
+        border-right: 1px solid rgba(118, 255, 3, 0.18);
+    }
+
+    .main-content {
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(circle at top left, rgba(118, 255, 3, 0.06), transparent 55%), #263238;
+    }
+
+    .main-content-inner {
+        padding: 24px 32px 32px 32px;
+    }
+
+@@media (max-width: 960px) {
+        .main-content-inner {
+            padding: 16px 16px 24px 16px;
+        }
+    }
+
+    /* Clique líquido suave no background */
+    .liquid-ripple {
+        position: absolute;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+        border-radius: 999px;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, rgba(118, 255, 3, 0.20) 0%, rgba(118, 255, 3, 0.0) 60%);
+        opacity: 0.6;
+        filter: blur(1px);
+        animation: liquid-ripple 0.9s ease-out forwards;
+    }
+
+@@keyframes liquid-ripple {
+        0% {
+            width: 0;
+            height: 0;
+            opacity: 0.55;
+        }
+
+        100% {
+            width: 320px;
+            height: 320px;
+            opacity: 0;
+        }
+    }
+
+    </style>

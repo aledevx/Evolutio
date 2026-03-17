@@ -10,8 +10,8 @@ namespace Evolutio.Web.Layout;
 public class MainLayoutPage : LayoutComponentBaseExtension
 {
     #region Properties
+    public bool _drawerOpen { get; set; } = false;
     public bool IsBusy { get; set; } = false;
-    public bool DrawerOpen { get; set; } = true;
     public MudTheme Matrix { get; set; } = default!;
     #endregion
 
@@ -31,7 +31,7 @@ public class MainLayoutPage : LayoutComponentBaseExtension
 
     public void ToggleDrawer()
     {
-        DrawerOpen = !DrawerOpen;
+        _drawerOpen = !_drawerOpen;
     }
 
     public async Task LogoutAsync()
