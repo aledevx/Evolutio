@@ -1,38 +1,117 @@
-﻿@page "/login"
+@page "/login"
 @layout Layout.CleanLayout
 @inherits LoginPage
 
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 
 <PageTitle>Tela de login</PageTitle>
 
-<MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" >
-    <MudItem xs="12" sm="8" md="4">
-        <MudPaper Class="pa-4 d-flex flex-column align-center rounded-xl gap-4 " Style="@($"background:{Colors.BlueGray.Darken4};")">
-            <MudContainer Class="d-flex flex-column align-center" Style="height: 30%;">
+<div class="login-page">
+    <div class="login-branding">
+        <div class="login-branding-content">
+            <div id="login-sphere" class="login-brand-icon login-sphere" aria-hidden="true"></div>
+            <MudText Typo="Typo.h3" Class="login-brand-title">EVO</MudText>
+            <MudText Typo="Typo.body1" Class="login-brand-phrase">Test skills for software development</MudText>
+        </div>
+    </div>
 
-            </MudContainer>
-            <MudContainer Class="d-flex flex-column align-center">
-                <MudText Typo="Typo.h2" Class="login-tittle">EVO</MudText>
-                <MudText Typo="Typo.caption" Class="login-subtittle">Test skills for software development...</MudText>
-            </MudContainer>
-            <MudContainer Class="d-flex flex-column align-center gap-4 py-4">
-                <MudTextField Variant="Variant.Outlined" Label="Email" @bind-Value="InputModel.Email" Margin="Margin.Dense" InputType="InputType.Text"/>
-                <MudTextField Variant="Variant.Outlined" Label="Senha" @bind-Value="InputModel.Password" InputType="InputType.Password" Margin="Margin.Dense" />
+    <div class="login-form-panel">
+        <div class="login-form-wrapper @(LoginFailed ? "login-form-wrapper-failed" : string.Empty)">
+            <MudText Typo="Typo.h5" Class="login-form-title">Entrar</MudText>
+            <MudText Typo="Typo.caption" Class="login-form-subtitle">Acesse sua conta para continuar</MudText>
+
+            <div class="login-form-fields">
+                <MudTextField Variant="Variant.Outlined"
+                             Label="Email"
+                             @bind-Value="InputModel.Email"
+                             Margin="Margin.Dense"
+                             InputType="InputType.Email"
+                             Placeholder="seu@email.com"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Email"
+                             AdornmentColor="Color.Primary"
+                             Class="login-input mb-2"
+                             Immediate="true" />
+
+                <MudTextField Variant="Variant.Outlined"
+                             Label="Senha"
+                             @bind-Value="InputModel.Password"
+                             InputType="InputType.Password"
+                             Margin="Margin.Dense"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Lock"
+                             AdornmentColor="Color.Primary"
+                             Class="login-input mb-2"
+                             Immediate="true" />
+
+                <div class="login-form-options">
+                    <MudCheckBox T="bool" @bind-Value="RememberMe" Color="Color.Primary" Class="login-remember" Size="Size.Small">
+                        Lembrar-me
+                    </MudCheckBox>
+                    <MudLink Href="#" Class="login-link">Esqueceu a senha?</MudLink>
+                </div>
+
                 @if (IsBusy)
                 {
-                    <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                    <div class="login-loading">
+                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Small" />
+                        <MudText Typo="Typo.caption" Class="mt-2">Entrando...</MudText>
+                    </div>
                 }
                 else
                 {
-                    <MudButton Class="rounded-xl"
-                    ButtonType="ButtonType.Submit" 
-                    Variant="Variant.Filled" 
-                    Size="Size.Small" 
-                    Color="Color.Primary" 
-                    OnClick="OnValidSubmitAsync" Style="width: 60%; font-weight: inherit; text-transform: initial;">Acessar</MudButton>
+                    <MudButton Variant="Variant.Filled"
+                              Color="Color.Primary"
+                              FullWidth="true"
+                              Size="Size.Small"
+                              EndIcon="@Icons.Material.Filled.ArrowForward"
+                              OnClick="OnValidSubmitAsync"
+                              Class="login-button mt-3">
+                        Entrar
+                    </MudButton>
                 }
-            </MudContainer>
-        </MudPaper>
-    </MudItem>
-</MudGrid>
+            </div>
+
+            <MudDivider Class="login-divider my-3" />
+
+            <div class="login-form-footer">
+                <MudText Typo="Typo.caption" Class="login-footer-text">Não tem uma conta?</MudText>
+                <MudLink Href="#" Class="login-link">Cadastre-se gratuitamente</MudLink>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private IJSObjectReference? _sphereModule;
+    private bool _sphereInitialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_sphereInitialized)
+            return;
+
+        _sphereModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/loginSphere.js");
+        await _sphereModule.InvokeVoidAsync("initLoginSphere", "login-sphere");
+        _sphereInitialized = true;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_sphereModule is not null)
+            {
+                await _sphereModule.InvokeVoidAsync("disposeLoginSphere", "login-sphere");
+                await _sphereModule.DisposeAsync();
+            }
+        }
+        catch
+        {
+            // ignore dispose errors (navigation / refresh)
+        }
+    }
+}

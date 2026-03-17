@@ -1,20 +1,4 @@
-.login-tittle {
-    font-family: 'IBM Plex Mono', monospace;
-    font: bolder;
-    letter-spacing: 0px;
-    color: #33691E;
-    opacity: 1;
-    color: #76FF03;
-}
-.login-subtittle {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    text-align: left;
-    letter-spacing: 0px;
-    opacity: 1;
-    margin-top: -5px;
-    color: #76FF03;
-}
+/* ===== Base ===== */
 body {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 16px;
@@ -23,15 +7,295 @@ body {
     color: #76FF03;
     background-color: #263238;
 }
+
+/* ===== Clean Layout (Login) - remove barra e ocupa tela inteira ===== */
+.clean-layout {
+    min-height: 100vh !important;
+    padding: 0 !important;
+}
+
+.clean-layout .mud-main-content.clean-layout-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 100vh !important;
+    display: block;
+}
+
+/* ===== Loading ===== */
 .loading-screen {
     display: block;
-    /* Adicione estilos para sua tela de loading */
 }
 
 .blazor-loaded #loading-screen {
     display: none;
-    /* Esta classe é adicionada ao body/html quando o Blazor carrega */
 }
+
+/* ===== Login Page - Layout duas colunas (marca | formul?rio) ===== */
+.login-page {
+    min-height: 100vh;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    color: #76FF03;
+}
+
+@media (max-width: 960px) {
+    .login-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .login-branding {
+        min-height: 200px;
+        padding: 32px 24px !important;
+    }
+
+    .login-sphere {
+        width: 100%;
+        min-width: 280px;
+        max-width: 480px;
+    }
+}
+
+/* Painel esquerdo - Marca (conte?do centralizado) */
+.login-branding {
+    background: linear-gradient(180deg, #1b5e20 0%, #263238 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+}
+
+.login-branding-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+}
+
+.login-brand-icon {
+    margin-bottom: 24px;
+}
+
+/* Esfera 3D (Three.js) - dobro do tamanho (100% da largura do painel branding) */
+.login-sphere {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    max-width: 720px;
+    min-width: 440px;
+    overflow: hidden;
+}
+
+.login-sphere canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+.login-brand-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #76FF03 !important;
+    margin-bottom: 16px;
+}
+
+.login-brand-phrase {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: #76FF03 !important;
+    opacity: 0.95;
+    line-height: 1.5;
+}
+
+/* Painel direito - Formul?rio */
+.login-form-panel {
+    background-color: #121214;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+}
+
+.login-form-wrapper-failed {
+    animation: login-shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes login-shake {
+    10%, 90% {
+        transform: translateX(-2px);
+    }
+    20%, 80% {
+        transform: translateX(4px);
+    }
+    30%, 50%, 70% {
+        transform: translateX(-6px);
+    }
+    40%, 60% {
+        transform: translateX(6px);
+    }
+}
+
+.login-form-wrapper {
+    width: 100%;
+    max-width: 340px;
+}
+
+.login-form-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #76FF03 !important;
+    margin-bottom: 2px;
+    letter-spacing: 0.02em;
+}
+
+.login-form-subtitle {
+    font-size: 0.75rem;
+    color: rgba(118, 255, 3, 0.75) !important;
+    margin-bottom: 24px;
+    letter-spacing: 0.01em;
+}
+
+/* Inputs mais compactos e modernos */
+.login-form-panel .login-input.mud-input-outlined .mud-input-slot {
+    font-size: 0.875rem;
+}
+
+.login-form-panel .login-input .mud-input-outlined-border {
+    border-radius: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-form-panel .login-input.mud-input-focused .mud-input-outlined-border {
+    box-shadow: 0 0 0 1px #76FF03;
+}
+
+.login-form-fields {
+    width: 100%;
+}
+
+/* Textos e labels do formul?rio em verde */
+.login-form-panel .mud-input-label,
+.login-form-panel .mud-input-slot,
+.login-form-panel .mud-input input,
+.login-form-panel .mud-typography,
+.login-form-panel .login-link,
+.login-form-panel .login-link .mud-typography,
+.login-form-panel .login-footer-text {
+    color: #76FF03 !important;
+}
+
+.login-form-panel .mud-input-label-outlined.mud-input-label-outlined {
+    color: #76FF03 !important;
+}
+
+.login-form-panel .mud-input-outlined .mud-input-outlined-border {
+    border-color: rgba(118, 255, 3, 0.5) !important;
+}
+
+.login-form-panel .mud-input-outlined:hover .mud-input-outlined-border,
+.login-form-panel .mud-input-focused .mud-input-outlined-border {
+    border-color: #76FF03 !important;
+}
+
+.login-form-panel .mud-input-adorned-start .mud-input-adornment .mud-icon-root {
+    color: #76FF03 !important;
+}
+
+.login-form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.login-remember {
+    color: #76FF03;
+}
+
+.login-remember .mud-checkbox-label {
+    color: #76FF03 !important;
+    font-size: 0.8rem !important;
+}
+
+.login-divider {
+    border-color: rgba(118, 255, 3, 0.15) !important;
+}
+
+.login-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+}
+
+.login-loading .mud-typography {
+    font-size: 0.75rem !important;
+}
+
+.login-button {
+    font-weight: 600;
+    font-size: 0.875rem !important;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-button:hover {
+    transform: translateY(-1px);
+}
+
+.login-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.login-form-footer .login-footer-text {
+    font-size: 0.75rem !important;
+}
+
+.login-link {
+    color: #76FF03 !important;
+    font-size: 0.8rem !important;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.login-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Legado (mantido para compatibilidade) */
+.login-tittle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: bolder;
+    letter-spacing: 0;
+    color: #76FF03;
+}
+
+.login-subtittle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-align: left;
+    letter-spacing: 0;
+    opacity: 1;
+    margin-top: -5px;
+    color: #76FF03;
+}
+
 .login-paper {
     max-width: 420px;
     margin: 48px auto;

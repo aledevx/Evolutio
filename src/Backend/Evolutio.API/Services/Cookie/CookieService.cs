@@ -1,12 +1,13 @@
 ﻿using Evolutio.Domain.Services.Cookie;
+using Evolutio.Communication;
 
 namespace Evolutio.API.Services.Cookie;
 
 public class CookieService : ICookieService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private const string AccessCookieName = "__Host-access_token";
-    private const string RefreshCookieName = "__Host-refresh_token";
+    private const string AccessCookieName = Configuration.AccessTokenCookieName;
+    private const string RefreshCookieName = Configuration.RefreshTokenCookieName;
     public CookieService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;

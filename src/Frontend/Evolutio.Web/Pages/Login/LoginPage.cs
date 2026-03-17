@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+using Blazored.LocalStorage;
 using Evolutio.Communication.Requests;
 using Evolutio.Communication.Responses;
 using Evolutio.Web.Extensions;
@@ -11,6 +11,8 @@ public class LoginPage : LayoutComponentBaseExtension
 {
     #region Properties
     public bool IsBusy { get; set; } = false;
+    public bool LoginFailed { get; set; } = false;
+    public bool RememberMe { get; set; } = false;
     public RequestLoginJson InputModel { get; set; } = new();
 
     #endregion
@@ -33,6 +35,8 @@ public class LoginPage : LayoutComponentBaseExtension
     public async Task OnValidSubmitAsync()
     {
         IsBusy = true;
+        LoginFailed = false;
+        StateHasChanged();
 
         try 
         {
@@ -47,6 +51,7 @@ public class LoginPage : LayoutComponentBaseExtension
             }
             else
             {
+                LoginFailed = true;
                 var response = result as ResponseErrorJson;
                 foreach (var error in response!.Errors)
                 {
@@ -56,6 +61,7 @@ public class LoginPage : LayoutComponentBaseExtension
         }
         catch (Exception ex)
         {
+            LoginFailed = true;
             Snackbar.Add(ex.Message, Severity.Error);
         }
         finally
