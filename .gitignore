@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Agentes Antigravity
+
+.agent/
+
 # Appsettings (não versionar configs sensíveis)
 appsettings*.json
 
