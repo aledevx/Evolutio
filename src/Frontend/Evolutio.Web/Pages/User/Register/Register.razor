@@ -1,0 +1,81 @@
+@page "/register"
+@page "/users/register"
+@layout Layout.CleanLayout
+@inherits RegisterPage
+
+<PageTitle>Criar Conta - EVO</PageTitle>
+
+<div class="register-page">
+    <div class="register-background" aria-hidden="true"></div>
+
+    <div class="register-form-container">
+        <div class="register-form-wrapper @(RegisterFailed ? "register-form-wrapper-failed" : string.Empty)">
+            <MudText Typo="Typo.h5" Class="register-form-title">Cadastre-se</MudText>
+            <MudText Typo="Typo.caption" Class="register-form-subtitle">Crie sua conta no EVO gratuitamente</MudText>
+
+            <div class="register-form-fields">
+                <MudTextField Variant="Variant.Outlined"
+                             Label="Nome"
+                             @bind-Value="InputModel.Name"
+                             Margin="Margin.Dense"
+                             InputType="InputType.Text"
+                             Placeholder="Seu nome completo"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Person"
+                             AdornmentColor="Color.Primary"
+                             Class="register-input mb-2"
+                             Immediate="true" />
+
+                <MudTextField Variant="Variant.Outlined"
+                             Label="Email"
+                             @bind-Value="InputModel.Email"
+                             Margin="Margin.Dense"
+                             InputType="InputType.Email"
+                             Placeholder="seu@email.com"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Email"
+                             AdornmentColor="Color.Primary"
+                             Class="register-input mb-2"
+                             Immediate="true" />
+
+                <MudTextField Variant="Variant.Outlined"
+                             Label="Senha"
+                             @bind-Value="InputModel.Password"
+                             InputType="InputType.Password"
+                             Margin="Margin.Dense"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Lock"
+                             AdornmentColor="Color.Primary"
+                             Class="register-input mb-2"
+                             Immediate="true" />
+
+                @if (IsBusy)
+                {
+                    <div class="register-loading">
+                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Small" />
+                        <MudText Typo="Typo.caption" Class="mt-2 register-loading-text">Criando conta...</MudText>
+                    </div>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled"
+                              Color="Color.Primary"
+                              FullWidth="true"
+                              Size="Size.Small"
+                              EndIcon="@Icons.Material.Filled.Check"
+                              OnClick="OnValidSubmitAsync"
+                              Class="register-button mt-3">
+                        Criar Conta
+                    </MudButton>
+                }
+            </div>
+
+            <MudDivider Class="register-divider my-3" />
+
+            <div class="register-form-footer">
+                <MudText Typo="Typo.caption" Class="register-footer-text">Já tem uma conta?</MudText>
+                <MudLink Href="/login" Class="register-link">Faça Login</MudLink>
+            </div>
+        </div>
+    </div>
+</div>

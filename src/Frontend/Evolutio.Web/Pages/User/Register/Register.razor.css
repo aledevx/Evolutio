@@ -1,0 +1,277 @@
+/* Alinhado ao login: #121214, verde #76FF03, IBM Plex Mono (app.css) */
+.register-page {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 40px 32px;
+    box-sizing: border-box;
+    color: #76ff03;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Mesma base do painel de formulário do login + leves brilhos em verde */
+.register-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #121214;
+    background-image:
+        radial-gradient(ellipse 100% 70% at 50% 0%, rgba(118, 255, 3, 0.06), transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, rgba(38, 50, 56, 0.85), transparent 50%),
+        linear-gradient(180deg, rgba(26, 35, 40, 0.4) 0%, transparent 35%, rgba(18, 18, 20, 1) 100%);
+}
+
+.register-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    background-image:
+        linear-gradient(rgba(118, 255, 3, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 255, 3, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: center center;
+    mask-image: radial-gradient(ellipse 88% 78% at 50% 50%, black 18%, transparent 70%);
+    animation: register-grid-shift 28s linear infinite;
+}
+
+.register-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(118, 255, 3, 0.02) 2px,
+        rgba(118, 255, 3, 0.02) 4px
+    );
+    mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+    animation: register-scan 11s ease-in-out infinite;
+}
+
+@keyframes register-grid-shift {
+    0% {
+        background-position: 0 0, 0 0;
+    }
+    100% {
+        background-position: 48px 48px, 48px 48px;
+    }
+}
+
+@keyframes register-scan {
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.38;
+        transform: translateY(-6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .register-background::before,
+    .register-background::after {
+        animation: none;
+    }
+}
+
+.register-form-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+}
+
+/* Mesmo “peso” visual do login: sem card flutuante escuro, conteúdo sobre o painel */
+.register-form-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.register-form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36%;
+    max-width: 160px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(118, 255, 3, 0.35),
+        rgba(118, 255, 3, 0.65),
+        rgba(118, 255, 3, 0.35),
+        transparent
+    );
+    opacity: 0.9;
+}
+
+.register-form-wrapper-failed {
+    animation: register-shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes register-shake {
+    10%,
+    90% {
+        transform: translateX(-2px);
+    }
+    20%,
+    80% {
+        transform: translateX(4px);
+    }
+    30%,
+    50%,
+    70% {
+        transform: translateX(-6px);
+    }
+    40%,
+    60% {
+        transform: translateX(6px);
+    }
+}
+
+.register-form-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #76ff03 !important;
+    margin-bottom: 2px;
+    letter-spacing: 0.02em;
+}
+
+.register-form-subtitle {
+    font-size: 0.75rem;
+    color: rgba(118, 255, 3, 0.75) !important;
+    margin-bottom: 24px;
+    letter-spacing: 0.01em;
+}
+
+.register-form-fields {
+    width: 100%;
+}
+
+::deep .register-input.mud-input-outlined .mud-input-slot {
+    font-size: 0.875rem;
+}
+
+::deep .register-input .mud-input-outlined-border {
+    border-radius: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+::deep .register-input.mud-input-focused .mud-input-outlined-border {
+    box-shadow: 0 0 0 1px #76ff03;
+}
+
+::deep .mud-input-label,
+::deep .mud-input-slot,
+::deep .mud-input input,
+::deep .register-form-wrapper .mud-typography:not(.register-form-title):not(.register-form-subtitle) {
+    color: #76ff03 !important;
+}
+
+::deep .mud-input-label-outlined.mud-input-label-outlined {
+    color: #76ff03 !important;
+}
+
+::deep .mud-input {
+    color: #76ff03 !important;
+}
+
+::deep .mud-input-outlined-border {
+    border-color: rgba(118, 255, 3, 0.5) !important;
+}
+
+::deep .mud-input-outlined:hover .mud-input-outlined-border,
+::deep .mud-input-focused .mud-input-outlined-border {
+    border-color: #76ff03 !important;
+}
+
+::deep .mud-input-control.mud-input-control-focused .mud-input-outlined-border {
+    border-color: #76ff03 !important;
+}
+
+::deep .mud-input-adorned-start .mud-input-adornment .mud-icon-root {
+    color: #76ff03 !important;
+}
+
+::deep .mud-input-control.mud-input-control-focused .mud-icon-root {
+    color: #76ff03 !important;
+}
+
+.register-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+}
+
+::deep .register-loading .mud-typography,
+.register-loading-text {
+    font-size: 0.75rem !important;
+    color: #76ff03 !important;
+}
+
+.register-button {
+    font-weight: 600;
+    font-size: 0.875rem !important;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.register-button:hover {
+    transform: translateY(-1px);
+}
+
+.register-divider {
+    border-color: rgba(118, 255, 3, 0.15) !important;
+}
+
+.register-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.register-footer-text {
+    font-size: 0.75rem !important;
+    color: #76ff03 !important;
+}
+
+.register-link {
+    color: #76ff03 !important;
+    font-size: 0.8rem !important;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.register-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
