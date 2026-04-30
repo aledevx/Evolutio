@@ -1,4 +1,4 @@
-﻿@using Evolutio.Web.Extensions
+@using Evolutio.Web.Extensions
 @using Evolutio.Web.Handlers.User.Profile
 @using Microsoft.AspNetCore.Components.Routing
 @inject NavigationManager Navigation
@@ -36,6 +36,12 @@
 @code {
     // Flag que decide se a rota pode ser renderizada
     private bool _allowRenderRoute = true;
+    private static readonly HashSet<string> PublicPaths = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "login",
+        "register",
+        "users/register"
+    };
 
     private async Task HandleNavigation(Microsoft.AspNetCore.Components.Routing.NavigationContext context)
     {
@@ -48,15 +54,15 @@
             var path = (context.Path ?? "").Trim('/').ToLowerInvariant();
             var isAuth = await IsAuthenticaded();
 
-            if (path == "login" && isAuth)
+            if (PublicPaths.Contains(path) && isAuth)
             {
                 // o Navigation.NavigateTo cancela a intenção original ao navegar para /home
                 Navigation.NavigateTo("/home", true);
                 return;
             }
 
-            // Se for rota diferente de login e NÃO autenticado -> ir pra /login
-            if (!isAuth && path != "login")
+            // Se for rota diferente de login/register e NÃO autenticado -> ir pra /login
+            if (!isAuth && !PublicPaths.Contains(path))
             {
                 Navigation.NavigateTo("/login", true);
                 return;
