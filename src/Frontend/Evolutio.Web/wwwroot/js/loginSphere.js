@@ -42,8 +42,16 @@ export function initLoginSphere(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  // Avoid double-init
-  if (instances.has(containerId)) return;
+  const existing = instances.get(containerId);
+  if (existing) {
+    const domStillMounted =
+      existing.container === container &&
+      existing.renderer?.domElement &&
+      container.contains(existing.renderer.domElement);
+    if (domStillMounted) return;
+    // Instância órfã (ex.: navegação sem IAsyncDisposable): libera WebGL e permite novo init
+    disposeLoginSphere(containerId);
+  }
 
   const scene = new THREE.Scene();
 
