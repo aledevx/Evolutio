@@ -1,4 +1,4 @@
-﻿using Evolutio.API.Attributes;
+using Evolutio.API.Attributes;
 using Evolutio.Application.UseCases.User.Delete;
 using Evolutio.Application.UseCases.User.GetById;
 using Evolutio.Application.UseCases.User.Profile;
@@ -9,12 +9,13 @@ using Evolutio.Communication.Responses;
 using Evolutio.Communication.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Evolutio.Communication.Routes.EvolutioApi.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Evolutio.API.Controllers;
 [AuthenticatedUser]
 public class UserController : EvolutioBaseController
 {
-    [AuthenticatedUser(Perfil.Admin)]
+    [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]

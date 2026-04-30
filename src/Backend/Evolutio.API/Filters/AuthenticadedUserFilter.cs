@@ -1,4 +1,4 @@
-﻿using Evolutio.Communication;
+using Evolutio.Communication;
 using Evolutio.Communication.Enums;
 using Evolutio.Communication.Responses;
 using Evolutio.Domain.Repositories.User;
@@ -8,6 +8,7 @@ using Evolutio.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Evolutio.API.Filters;
 public class AuthenticadedUserFilter : IAsyncAuthorizationFilter
@@ -26,6 +27,11 @@ public class AuthenticadedUserFilter : IAsyncAuthorizationFilter
     }
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
+        if (context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any())
+        {
+            return;
+        }
+
         try
         {
             var token = TakeOnRequest(context);
