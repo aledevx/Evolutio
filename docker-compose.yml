@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: evolutio_db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Admin123!@#
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: '2.5G'
+
+  evolutio.api:
+    build:
+      context: .
+      dockerfile: src/Backend/Evolutio.API/Dockerfile
+    container_name: evolutio_api
+    depends_on:
+      - sqlserver
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=EvolutioDb;User Id=sa;Password=Admin123!@#;TrustServerCertificate=True;
+
+  evolutio.web:
+    build:
+      context: .
+      dockerfile: src/Frontend/Dockerfile.web
+    container_name: evolutio_web
+    ports:
+      - "8080:80"
+
+volumes:
+  sqldata:

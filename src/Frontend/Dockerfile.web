@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /app
+
+# Copia tudo para o container de build
+COPY . .
+
+# Restaura e publica o Frontend
+WORKDIR /app/src/Frontend/Evolutio.Web
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
+
+FROM nginx:alpine AS runtime
+WORKDIR /usr/share/nginx/html
+
+# Remove arquivos estáticos padrão do Nginx
+RUN rm -rf ./*
+
+# Copia a aplicação Blazor publicada para o Nginx
+COPY --from=build /app/publish/wwwroot ./
+
+# Copia a configuração customizada do Nginx
+COPY src/Frontend/Evolutio.Web/nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /app
+
+# Copia tudo para o container de build
+COPY . .
+
+# Restaura e publica a API
+WORKDIR /app/src/Backend/Evolutio.API
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish ./
+
+ENTRYPOINT ["dotnet", "Evolutio.API.dll"]
